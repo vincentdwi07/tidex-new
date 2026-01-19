@@ -16,9 +16,26 @@ const Navbar = () => {
                         <a key={link.href} href={link.href} className="px-4 py-2 rounded-[80px] text-white">{link.label}</a>
                     ))}
                 </div>
-                <div className="bg-white rounded-[80px] px-4 py-2 flex gap-2 items-center">
-                    <FaPhoneAlt/>
-                    <button className="rounded-[80px] text-black">Contact Us</button>
+                <div className="group bg-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white border-1 cursor-pointer">
+                    
+                    {/* background animasi */}
+                    <span className="
+                        absolute inset-0 
+                        bg-black 
+                        scale-x-0 
+                        group-hover:scale-x-100 
+                        transition-transform 
+                        duration-500 
+                        ease 
+                        origin-right
+                        z-0
+                    "></span>
+
+                    {/* content */}
+                    <FaPhoneAlt className="relative z-10 text-black group-hover:text-white transition-all duration-500 ease" />
+                    <button className="relative z-10 rounded-[80px] text-black group-hover:text-white transition-all duration-500 ease">
+                        Contact Us
+                    </button>
                 </div>
             </div>
         </nav>
