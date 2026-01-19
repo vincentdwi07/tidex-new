@@ -11,9 +11,9 @@ const Navbar = () => {
                 <div className="bg-white p-2 px-4 rounded-[80px]">
                     <Image src={"/logo.webp"} alt={""} width={55} height={55}></Image>
                 </div>
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-5 w-auto">
                     {NAVBAR_LINKS.map((link) => (
-                        <a key={link.href} href={link.href} className="px-4 py-2 rounded-[80px] text-white">{link.label}</a>
+                        <a key={link.href} href={link.href} className="px-4 py-2 rounded-[80px] text-white flex gap-1 items-center">{link.label}{link.icon}</a>
                     ))}
                 </div>
                 <div className="group bg-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white border-1 cursor-pointer">
