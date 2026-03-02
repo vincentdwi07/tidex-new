@@ -1,4 +1,4 @@
-import LandingPage from "@/features/User/landing-page";
+import LandingPage from "@/features/User/landing-page/landing-page";
 import { Suspense } from "react";
 
 export default function Home() {

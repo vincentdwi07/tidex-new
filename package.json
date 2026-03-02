@@ -11,6 +11,8 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.34.1",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.562.0",
     "motion": "^12.23.12",
     "next": "16.1.3",

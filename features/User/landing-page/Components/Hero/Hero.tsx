@@ -2,12 +2,12 @@ import FloatingLines from "@/components/FloatingLines";
 import BlurText from "@/components/BlurText"
 import ShinyText from "@/components/ShinyText"
 import { Glassmorph } from "@/lib/constant/Glassmorph";
-import "@/public/animation/animation.css"
 import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
     return (
-        <main className="bg-black h-screen">
+        <main className="bg-black h-screen relative">
+            <div className="absolute bottom-0 left-0 right-0 w-full bg-gradient-to-t from-black to-transparent h-[30%] z-2">tes</div>
             <FloatingLines 
                 enabledWaves={["top", "middle", "bottom"]}
                 lineCount={[10]}
@@ -21,7 +21,7 @@ const Hero = () => {
                 middleWavePosition={undefined}
                 animationSpeed={2}
             />
-            <div className="max-w-[1400px] m-auto flex justify-start items-end h-full py-10 px-10 xl:px-0 relative">
+            <div className="max-w-[1400px] m-auto flex justify-start items-end h-full py-10 px-10 xl:px-0 relative z-3">
                 <div className="flex flex-col text-white gap-2">
                     <div className={`absolute right-20 top-50 w-64 rounded-xl ${Glassmorph} p-6`}>
                         <div className="text-4xl font-bold text-white">25+</div>

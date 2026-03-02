@@ -31,8 +31,7 @@ const Navbar = () => {
                     ))}
                 </div>
 
-                <div className="group bg-transparent text-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white border-1 cursor-pointer">
-                    
+                <div className="group bg-transparent text-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white/50 border-1 cursor-pointer">
                     {/* background animasi */}
                     <span className="
                         absolute inset-0 

@@ -1,5 +1,12 @@
+import FooterSection from "../Components/Footer/Footer";
 import Navbar from "../Components/Navbar";
-import Hero from "./Components/Hero";
+import BackgroundSection from "./Components/Background/Background";
+import CertificatesSection from "./Components/Certificate/Certificate";
+import Hero from "./Components/Hero/Hero";
+import PartnersSection from "./Components/Partner/Partner";
+import ProjectsSection from "./Components/Projects/Projects";
+import ServicesSection from "./Components/Services/Service";
+import ValuesSection from "./Components/Value/Value";
 
 const LandingPage = () => {
     return (
@@ -7,6 +14,13 @@ const LandingPage = () => {
             <main >
                 <Navbar />
                 <Hero />
+                <PartnersSection/>
+                <ServicesSection/>
+                <BackgroundSection/>
+                <ValuesSection/>
+                <ProjectsSection/>
+                <CertificatesSection/>
+                <FooterSection/>
             </main>
         </>
     );
