@@ -1,5 +1,3 @@
-import FooterSection from "../Components/Footer/Footer";
-import Navbar from "../Components/Navbar";
 import BackgroundSection from "./Components/Background/Background";
 import CertificatesSection from "./Components/Certificate/Certificate";
 import Hero from "./Components/Hero/Hero";
@@ -9,21 +7,17 @@ import ServicesSection from "./Components/Services/Service";
 import ValuesSection from "./Components/Value/Value";
 
 const LandingPage = () => {
-    return (
-        <>
-            <main >
-                <Navbar />
-                <Hero />
-                <PartnersSection/>
-                <ServicesSection/>
-                <BackgroundSection/>
-                <ValuesSection/>
-                <ProjectsSection/>
-                <CertificatesSection/>
-                <FooterSection/>
-            </main>
-        </>
-    );
+  return (
+    <>
+      <Hero />
+      <PartnersSection />
+      <ServicesSection />
+      <BackgroundSection />
+      <ValuesSection />
+      <ProjectsSection />
+      <CertificatesSection />
+    </>
+  );
 };
 
 export default LandingPage;
