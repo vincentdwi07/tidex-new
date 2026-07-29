@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tidex - Titan Persada
 
-## Getting Started
+Monorepo project dengan frontend (Next.js) dan backend (Go) yang terpisah.
 
-First, run the development server:
+## 📁 Struktur Folder
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+tidex/
+├── frontend/          # Next.js Application
+│   ├── app/          # Next.js App Router pages
+│   ├── components/   # Reusable UI components
+│   ├── features/     # Feature-specific modules (Admin & User)
+│   ├── lib/          # Utilities, API clients, contexts
+│   ├── public/       # Static assets
+│   ├── package.json
+│   ├── next.config.ts
+│   ├── tsconfig.json
+│   └── .env.local
+│
+├── backend/          # Go REST API
+│   ├── cmd/          # Entry points (main.go)
+│   ├── internal/     # Internal packages
+│   │   ├── auth/     # Authentication module
+│   │   ├── features/ # Business features (products, partners, projects, news, messages)
+│   │   ├── middleware/
+│   │   ├── database/
+│   │   ├── utils/
+│   │   └── router/
+│   ├── db/           # Database scripts (DDL, seed)
+│   ├── go.mod
+│   └── .env
+│
+├── .gitignore
+├── pnpm-workspace.yaml
+├── ERD and Databases.md
+├── skill.md
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Frontend (Next.js)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Frontend akan berjalan di `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+**Environment Variables:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Copy `.env.local` dan sesuaikan `NEXT_PUBLIC_API_URL`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend (Go)
 
-## Deploy on Vercel
+```bash
+cd backend
+go mod download
+go run cmd/main.go
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Backend API akan berjalan di `http://localhost:8000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Environment Variables:**
+
+- Copy `.env` dan sesuaikan:
+  - `DATABASE_URL`
+  - `JWT_SECRET`
+  - `PORT`
+
+## 🔐 Admin Login
+
+- Email: `admin@gmail.com`
+- Password: `tidex1234`
+- URL: `http://localhost:3000/admin/login`
+
+## 🗄️ Database
+
+Database menggunakan PostgreSQL. Jalankan script DDL dan seed:
+
+```bash
+cd backend
+psql "postgres://user:pass@localhost:5432/tidex" -f db/ddl.sql
+psql "postgres://user:pass@localhost:5432/tidex" -f db/seed.sql
+```
+
+Lihat `ERD and Databases.md` untuk detail schema.
+
+## 📦 Tech Stack
+
+**Frontend:**
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Framer Motion
+- GSAP
+
+**Backend:**
+
+- Go 1.23+
+- PostgreSQL
+- JWT Authentication
+- Clean Architecture
+
+## 📝 Notes
+
+- Frontend dan backend sekarang terpisah untuk memudahkan development dan deployment
+- API base URL: `http://localhost:8000/api/v1`
+- File uploads disimpan di `backend/uploads/`
