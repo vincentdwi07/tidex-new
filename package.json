@@ -1,0 +1,9 @@
+{
+  "name": "tidex-root",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter tidex dev",
+    "build": "pnpm --filter tidex build",
+    "start": "pnpm --filter tidex start"
+  }
+}
