@@ -1,14 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { logout } from "@/lib/api";
+import { logout, getUnreadMessageCount } from "@/lib/api";
 import { Toaster } from "sonner";
 import { ConfirmDialogProvider } from "@/features/Admin/components/ConfirmDialog";
 
 const NAV_ITEMS = [
+  {
+    label: "Dashboard",
+    href: "/admin",
+    icon: (
+      <svg
+        className="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+        />
+      </svg>
+    ),
+  },
   {
     label: "Produk & Layanan",
     href: "/admin/products",
@@ -110,11 +129,17 @@ const NAV_BOTTOM = {
 function NavItem({
   item,
   pathname,
+  badge,
 }: {
   item: { label: string; href: string; icon: React.ReactNode };
   pathname: string;
+  badge?: number;
 }) {
-  const active = pathname.startsWith(item.href);
+  // Dashboard (/admin) harus exact match, yang lain pakai startsWith
+  const active =
+    item.href === "/admin"
+      ? pathname === "/admin"
+      : pathname.startsWith(item.href);
   return (
     <Link
       href={item.href}
@@ -127,7 +152,22 @@ function NavItem({
       <span className={active ? "text-white" : "text-slate-500"}>
         {item.icon}
       </span>
-      {item.label}
+      <span className="flex-1">{item.label}</span>
+      {badge !== undefined && (
+        <span
+          className={`text-xs font-semibold px-1.5 py-0.5 rounded min-w-[20px] text-center ${
+            badge > 0
+              ? active
+                ? "bg-white/25 text-white"
+                : "bg-red-500 text-white"
+              : active
+                ? "bg-white/10 text-white/50"
+                : "bg-slate-700 text-slate-500"
+          }`}
+        >
+          {badge > 99 ? "99+" : badge}
+        </span>
+      )}
     </Link>
   );
 }
@@ -145,12 +185,27 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const { user, token, isLoading, clearAuth } = useAuth();
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     if (!isLoading && !token && pathname !== "/admin/login") {
       router.replace("/admin/login");
     }
   }, [isLoading, token, pathname, router]);
+
+  useEffect(() => {
+    if (token) {
+      getUnreadMessageCount()
+        .then((res) => setUnreadCount(res.data.count))
+        .catch(() => {});
+      const interval = setInterval(() => {
+        getUnreadMessageCount()
+          .then((res) => setUnreadCount(res.data.count))
+          .catch(() => {});
+      }, 30000); // Refresh every 30s
+      return () => clearInterval(interval);
+    }
+  }, [token]);
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
@@ -188,7 +243,7 @@ export default function AdminLayout({
             <NavItem key={item.href} item={item} pathname={pathname} />
           ))}
           <div className="my-2 border-t border-slate-600" />
-          <NavItem item={NAV_BOTTOM} pathname={pathname} />
+          <NavItem item={NAV_BOTTOM} pathname={pathname} badge={unreadCount} />
         </nav>
       </aside>
 

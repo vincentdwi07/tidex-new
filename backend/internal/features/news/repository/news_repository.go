@@ -66,7 +66,7 @@ func (r *postgresNewsRepository) FindByID(ctx context.Context, id int) (*entity.
 func (r *postgresNewsRepository) Create(ctx context.Context, n *entity.News) (int, error) {
 	var id int
 	err := r.db.QueryRowContext(ctx,
-		`INSERT INTO news (judul, kategori, news, "imgURL") VALUES ($1,$2,$3,$4) RETURNING id`,
+		`INSERT INTO news (judul, kategori, news, "imgURL", created_at) VALUES ($1,$2,$3,$4,NOW()) RETURNING id`,
 		n.Judul, n.Kategori, n.News, n.ImgURL,
 	).Scan(&id)
 	return id, err

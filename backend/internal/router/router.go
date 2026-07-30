@@ -18,6 +18,8 @@ import (
 	partnerhandler "backend/internal/features/partner/handler"
 	producthandler "backend/internal/features/product/handler"
 	projecthandler "backend/internal/features/project/handler"
+	statshandler "backend/internal/features/stats/handler"
+	visitorhandler "backend/internal/features/visitor/handler"
 
 	authroute "backend/internal/auth/route"
 	messageroute "backend/internal/features/message/route"
@@ -25,6 +27,8 @@ import (
 	partnerroute "backend/internal/features/partner/route"
 	productroute "backend/internal/features/product/route"
 	projectroute "backend/internal/features/project/route"
+	statsroute "backend/internal/features/stats/route"
+	visitorroute "backend/internal/features/visitor/route"
 )
 
 type Handlers struct {
@@ -34,6 +38,8 @@ type Handlers struct {
 	Project *projecthandler.ProjectHandler
 	Message *messagehandler.MessageHandler
 	News    *newshandler.NewsHandler
+	Visitor *visitorhandler.VisitorHandler
+	Stats   *statshandler.StatsHandler
 }
 
 func New(jwtManager *utils.JWTManager, h *Handlers, uploadsDir string) http.Handler {
@@ -63,6 +69,8 @@ func New(jwtManager *utils.JWTManager, h *Handlers, uploadsDir string) http.Hand
 		projectroute.RegisterProjectRoutes(r, h.Project, jwtManager)
 		messageroute.RegisterMessageRoutes(r, h.Message, jwtManager)
 		newsroute.RegisterNewsRoutes(r, h.News, jwtManager)
+		visitorroute.RegisterVisitorRoutes(r, h.Visitor, jwtManager)
+		statsroute.RegisterStatsRoutes(r, h.Stats, jwtManager)
 	})
 
 	return r

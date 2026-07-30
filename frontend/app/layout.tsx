@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import ConditionalShell from "@/features/User/Components/ConditionalShell";
+import VisitorTracker from "@/features/User/Components/VisitorTracker";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,7 +29,9 @@ export default function RootLayout({
         style={{ backgroundColor: "#000" }}
       >
         <AuthProvider>
+          <VisitorTracker />
           <ConditionalShell>{children}</ConditionalShell>
+          <Toaster position="bottom-right" />
         </AuthProvider>
       </body>
     </html>

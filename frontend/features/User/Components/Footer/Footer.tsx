@@ -5,28 +5,26 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { CgInstagram } from "react-icons/cg";
 import { sendMessage } from "@/lib/api";
+import { userToast } from "@/features/User/Components/UserToast";
 
 const FooterSection = () => {
   const [form, setForm] = useState({ nama: "", email: "", pesan: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.nama || !form.email || !form.pesan) return;
     setSubmitting(true);
-    setError("");
     try {
       await sendMessage({
         nama: form.nama,
         email: form.email,
         pesan: form.pesan,
       });
-      setSent(true);
       setForm({ nama: "", email: "", pesan: "" });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Gagal mengirim pesan.");
+      userToast.success("Message sent!", "We will contact you shortly.");
+    } catch {
+      userToast.error("Gagal mengirim pesan", "Silakan coba lagi nanti.");
     } finally {
       setSubmitting(false);
     }
@@ -39,7 +37,7 @@ const FooterSection = () => {
           {/* Brand */}
           <div>
             <div className="bg-white p-2 px-4 rounded-[80px] inline-block">
-              <Image src={"/logo.webp"} alt={""} width={55} height={55} />
+              <Image src="/logo.webp" alt="" width={55} height={55} />
             </div>
             <p className="text-sm leading-relaxed mt-5 text-white">
               <strong>PT. Tidex Titan Persada</strong> — Trusted to Commitment.
@@ -80,68 +78,45 @@ const FooterSection = () => {
             <h4 className="font-display font-semibold text-white mb-5">
               GET IN TOUCH
             </h4>
-
-            {sent ? (
-              <div className="bg-green-500/10 border border-green-500/30 rounded-lg px-4 py-6 text-center">
-                <p className="text-green-400 font-medium text-sm">
-                  Pesan terkirim!
-                </p>
-                <p className="text-white/60 text-xs mt-1">
-                  Kami akan segera menghubungi Anda.
-                </p>
-                <button
-                  onClick={() => setSent(false)}
-                  className="mt-4 text-xs text-white/50 hover:text-white underline transition-colors"
-                >
-                  Kirim pesan lain
-                </button>
-              </div>
-            ) : (
-              <form className="space-y-3" onSubmit={handleSubmit}>
-                {error && (
-                  <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-                    {error}
-                  </p>
-                )}
-                <input
-                  type="text"
-                  required
-                  placeholder="Nama"
-                  value={form.nama}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, nama: e.target.value }))
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 focus:bg-white/8 transition-colors"
-                />
-                <input
-                  type="email"
-                  required
-                  placeholder="Email"
-                  value={form.email}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, email: e.target.value }))
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 focus:bg-white/8 transition-colors"
-                />
-                <textarea
-                  required
-                  placeholder="Pesan"
-                  rows={3}
-                  value={form.pesan}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, pesan: e.target.value }))
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 focus:bg-white/8 transition-colors resize-none"
-                />
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-2.5 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {submitting ? "Mengirim..." : "Kirim Pesan"}
-                </button>
-              </form>
-            )}
+            <form className="space-y-3" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                required
+                placeholder="Nama"
+                value={form.nama}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, nama: e.target.value }))
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors"
+              />
+              <input
+                type="email"
+                required
+                placeholder="Email"
+                value={form.email}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, email: e.target.value }))
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors"
+              />
+              <textarea
+                required
+                placeholder="Pesan"
+                rows={3}
+                value={form.pesan}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, pesan: e.target.value }))
+                }
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors resize-none"
+              />
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-2.5 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? "Mengirim..." : "Kirim Pesan"}
+              </button>
+            </form>
           </div>
         </div>
 

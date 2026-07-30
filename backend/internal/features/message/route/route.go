@@ -16,6 +16,7 @@ func RegisterMessageRoutes(r chi.Router, h *handler.MessageHandler, jwtManager *
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.JWTAuth(jwtManager))
 		r.Get("/messages", h.GetAll)
+		r.Get("/messages/unread-count", h.UnreadCount)
 		r.Get("/messages/{id}", h.GetByID)
 		r.Patch("/messages/{id}/read", h.MarkAsRead)
 		r.Delete("/messages/{id}", h.Delete)

@@ -86,7 +86,12 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="group bg-transparent text-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white/50 border cursor-pointer">
+        <a
+          href="https://wa.me/62818311037"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-transparent text-white rounded-[80px] px-4 py-2 flex gap-2 items-center relative overflow-hidden border-white/50 border"
+        >
           {/* background animasi */}
           <span
             className="
@@ -104,10 +109,10 @@ const Navbar = () => {
 
           {/* content */}
           <FaPhoneAlt className="relative z-10 text-white group-hover:text-black transition-all duration-500 ease" />
-          <button className="relative z-10 rounded-[80px] text-white group-hover:text-black transition-all duration-500 ease">
+          <span className="relative z-10 rounded-[80px] text-white group-hover:text-black transition-all duration-500 ease">
             Contact Us
-          </button>
-        </div>
+          </span>
+        </a>
       </div>
     </nav>
   );

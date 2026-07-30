@@ -7,8 +7,10 @@ func CORS(next http.Handler) http.Handler {
 		origin := r.Header.Get("Origin")
 
 		allowed := map[string]bool{
-			"http://localhost:3000": true,
-			"http://localhost:3001": true,
+			"http://localhost:3000":   true,
+			"http://localhost:3001":   true,
+			"https://tidex.co.id":     true,
+			"https://www.tidex.co.id": true,
 		}
 
 		if allowed[origin] {

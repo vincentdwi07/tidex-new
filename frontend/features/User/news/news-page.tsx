@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, ArrowRight, Tag as TagIcon } from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 import { getNews, getImageUrl, type News } from "@/lib/api";
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("id-ID", {
+  return new Date(dateStr).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -18,6 +18,20 @@ function CategoryBadge({ label }: { label: string }) {
     <span className="inline-flex items-center gap-1 text-[10px] tracking-[0.2em] uppercase font-medium text-red-400 bg-red-500/10 border border-red-500/20 rounded-full px-2.5 py-1">
       {label}
     </span>
+  );
+}
+
+function CategoryPills({ kategori }: { kategori: string }) {
+  const tags = kategori
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  return (
+    <>
+      {tags.map((tag, i) => (
+        <CategoryBadge key={i} label={tag} />
+      ))}
+    </>
   );
 }
 
@@ -61,10 +75,10 @@ const NewsPage = () => {
               Newsroom
             </p>
             <h1 className="text-3xl md:text-5xl font-semibold text-white tracking-tight leading-tight">
-              Berita &amp; Informasi
+              News &amp; Updates
             </h1>
             <p className="text-white/50 mt-3 text-sm md:text-base max-w-xl leading-relaxed">
-              Pengumuman, pembaruan, dan catatan dari operasional Tidex.
+              Announcements, updates, and notes from Tidex operations.
             </p>
           </motion.div>
         </div>
@@ -86,7 +100,7 @@ const NewsPage = () => {
             </div>
           ) : items.length === 0 ? (
             <div className="text-center py-24 text-white/30 text-sm">
-              Belum ada berita yang tersedia.
+              No articles available yet.
             </div>
           ) : (
             <div className="space-y-12 md:space-y-16">
@@ -117,9 +131,9 @@ const NewsPage = () => {
 
                     {/* Text */}
                     <div className="flex flex-col gap-4">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 flex-wrap">
                         {featured.kategori && (
-                          <CategoryBadge label={featured.kategori} />
+                          <CategoryPills kategori={featured.kategori} />
                         )}
                         <span className="text-xs text-white/40 flex items-center gap-1.5">
                           <Calendar className="w-3 h-3" />
@@ -136,7 +150,7 @@ const NewsPage = () => {
                         }}
                       />
                       <span className="inline-flex items-center gap-2 text-sm text-red-400 font-medium group-hover:gap-3 transition-all">
-                        Baca selengkapnya <ArrowRight className="w-4 h-4" />
+                        Read more <ArrowRight className="w-4 h-4" />
                       </span>
                     </div>
                   </Link>
@@ -177,7 +191,7 @@ const NewsPage = () => {
                           {/* Meta */}
                           <div className="flex items-center gap-2.5 flex-wrap">
                             {item.kategori && (
-                              <CategoryBadge label={item.kategori} />
+                              <CategoryPills kategori={item.kategori} />
                             )}
                             <span className="text-xs text-white/40 flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
@@ -196,7 +210,7 @@ const NewsPage = () => {
                           </p>
 
                           <span className="inline-flex items-center gap-1.5 text-xs text-red-400/80 font-medium group-hover:gap-2.5 transition-all">
-                            Baca <ArrowRight className="w-3.5 h-3.5" />
+                            Read <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </Link>
                       </motion.div>

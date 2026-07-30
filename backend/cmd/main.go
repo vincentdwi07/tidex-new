@@ -27,6 +27,10 @@ import (
 	projecthandler "backend/internal/features/project/handler"
 	projectrepo "backend/internal/features/project/repository"
 	projectservice "backend/internal/features/project/service"
+	statshandler "backend/internal/features/stats/handler"
+	visitorhandler "backend/internal/features/visitor/handler"
+	visitorrepo "backend/internal/features/visitor/repository"
+	visitorservice "backend/internal/features/visitor/service"
 	"backend/internal/router"
 	"backend/internal/utils"
 	"backend/internal/utils/filestore"
@@ -82,12 +86,20 @@ func main() {
 	// Message
 	msgRepo := messagerepo.NewMessageRepository(db)
 	msgSvc := messageservice.NewMessageService(msgRepo)
-	msgHandler := messagehandler.NewMessageHandler(msgSvc)
+	msgHandler := messagehandler.NewMessageHandler(msgSvc, msgRepo)
 
 	// News
 	newsRepo := newsrepo.NewNewsRepository(db)
 	newsSvc := newsservice.NewNewsService(newsRepo, uploader)
 	newsH := newshandler.NewNewsHandler(newsSvc)
+
+	// Visitor
+	visitorRepo := visitorrepo.NewVisitorRepository(db)
+	visitorSvc := visitorservice.NewVisitorService(visitorRepo)
+	visitorH := visitorhandler.NewVisitorHandler(visitorSvc)
+
+	// Stats
+	statsH := statshandler.NewStatsHandler(db)
 
 	// Router
 	h := &router.Handlers{
@@ -97,6 +109,8 @@ func main() {
 		Project: projHandler,
 		Message: msgHandler,
 		News:    newsH,
+		Visitor: visitorH,
+		Stats:   statsH,
 	}
 
 	srv := &http.Server{

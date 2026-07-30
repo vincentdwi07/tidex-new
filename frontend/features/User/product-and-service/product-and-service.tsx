@@ -138,15 +138,6 @@ const Products = () => {
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 glass-card px-4 py-1.5 text-xs tracking-[0.2em] uppercase text-white/80 mb-7"
-          >
-            <Sparkles className="w-3 h-3 text-primary" />
-            Product & Service
-          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

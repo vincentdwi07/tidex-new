@@ -15,6 +15,7 @@ type MessageService interface {
 	Create(ctx context.Context, m *entity.Message) (*entity.Message, error)
 	MarkAsRead(ctx context.Context, id int) error
 	Delete(ctx context.Context, id int) error
+	CountUnread(ctx context.Context) (int, error)
 }
 
 type messageService struct {
@@ -54,4 +55,8 @@ func (s *messageService) MarkAsRead(ctx context.Context, id int) error {
 
 func (s *messageService) Delete(ctx context.Context, id int) error {
 	return s.repo.Delete(ctx, id)
+}
+
+func (s *messageService) CountUnread(ctx context.Context) (int, error) {
+	return s.repo.CountUnread(ctx)
 }

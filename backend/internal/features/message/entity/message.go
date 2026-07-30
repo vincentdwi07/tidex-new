@@ -8,6 +8,7 @@ type Message struct {
 	Email     string     `json:"email"`
 	Pesan     string     `json:"pesan"`
 	IsNew     bool       `json:"isNew"`
-	CreatedAt time.Time  `json:"created_at"`
+	IPAddress string     `json:"ip_address,omitempty"`
+	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 }

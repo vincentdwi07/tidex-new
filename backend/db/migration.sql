@@ -90,3 +90,22 @@ CREATE TABLE IF NOT EXISTS messages (
 -- SELECT nama, email, pesan, COALESCE(created_at, NOW())
 -- FROM message_admin
 -- ON CONFLICT DO NOTHING;
+
+-- ============================================================
+-- 5. message_admin: tambah kolom ip_address untuk rate limiting
+-- ============================================================
+ALTER TABLE message_admin
+    ADD COLUMN IF NOT EXISTS ip_address VARCHAR(45) DEFAULT NULL;
+
+
+-- ============================================================
+-- 6. visitors: tabel tracking pengunjung unik per hari
+-- ============================================================
+CREATE TABLE IF NOT EXISTS visitors (
+    id         SERIAL PRIMARY KEY,
+    ip_address VARCHAR(45) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_visitors_ip_date
+    ON visitors (ip_address, created_at);

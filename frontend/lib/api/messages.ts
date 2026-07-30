@@ -21,3 +21,16 @@ export async function deleteMessage(id: number) {
     auth: true,
   });
 }
+
+export async function getUnreadMessageCount() {
+  return apiFetch<ApiResponse<{ count: number }>>("/messages/unread-count", {
+    auth: true,
+  });
+}
+
+export async function markMessageAsRead(id: number) {
+  return apiFetch<ApiResponse<null>>(`/messages/${id}/read`, {
+    method: "PATCH",
+    auth: true,
+  });
+}

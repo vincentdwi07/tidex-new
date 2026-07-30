@@ -1,6 +1,7 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
+import { Trash2, Eye } from "lucide-react";
+import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Message } from "@/lib/api";
 import { confirm } from "@/features/Admin/components/ConfirmDialog";
@@ -24,15 +25,13 @@ function DeleteCell({
   }
 
   return (
-    <div className="flex justify-end">
-      <button
-        onClick={handleDelete}
-        title="Hapus"
-        className="p-1.5 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
-    </div>
+    <button
+      onClick={handleDelete}
+      title="Hapus"
+      className="p-1.5 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+    >
+      <Trash2 className="w-4 h-4" />
+    </button>
   );
 }
 
@@ -45,16 +44,9 @@ export function getMessageColumns(
       header: "Nama",
       cell: ({ row }) => (
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-900 font-medium text-sm">
-              {row.original.nama}
-            </span>
-            {row.original.isNew && (
-              <span className="px-1.5 py-0.5 rounded text-xs bg-blue-50 text-blue-600 border border-blue-100">
-                Baru
-              </span>
-            )}
-          </div>
+          <span className="text-gray-900 font-medium text-sm block">
+            {row.original.nama}
+          </span>
           <span className="text-blue-600 text-xs">{row.original.email}</span>
         </div>
       ),
@@ -62,11 +54,30 @@ export function getMessageColumns(
     {
       accessorKey: "pesan",
       header: "Pesan",
-      cell: ({ getValue }) => (
-        <span className="text-gray-600 text-sm max-w-md truncate block">
-          {getValue() as string}
-        </span>
-      ),
+      cell: ({ getValue }) => {
+        const pesan = getValue() as string;
+        const truncated =
+          pesan.length > 150 ? pesan.slice(0, 150) + "..." : pesan;
+        return (
+          <span className="text-gray-600 text-sm max-w-md block" title={pesan}>
+            {truncated}
+          </span>
+        );
+      },
+    },
+    {
+      id: "status",
+      header: "Status",
+      cell: ({ row }) =>
+        row.original.isNew ? (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-50 text-red-600 border border-red-200">
+            Belum Dibaca
+          </span>
+        ) : (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-500 border border-gray-200">
+            Sudah Dibaca
+          </span>
+        ),
     },
     {
       accessorKey: "created_at",
@@ -84,7 +95,18 @@ export function getMessageColumns(
     {
       id: "aksi",
       header: "Aksi",
-      cell: ({ row }) => <DeleteCell item={row.original} onDelete={onDelete} />,
+      cell: ({ row }) => (
+        <div className="flex items-center justify-end gap-1">
+          <Link
+            href={`/admin/messages/${row.original.id}`}
+            title="Lihat Detail"
+            className="p-1.5 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+          >
+            <Eye className="w-4 h-4" />
+          </Link>
+          <DeleteCell item={row.original} onDelete={onDelete} />
+        </div>
+      ),
     },
   ];
 }

@@ -53,28 +53,27 @@ const ProjectsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04, duration: 0.4 }}
-                className="group backdrop-blur-[24px] bg-[rgba(15,15,20,0.4)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(239,68,68,0.3)] transition-all duration-300 rounded-[12px] overflow-hidden"
+                className="group backdrop-blur-[24px] bg-[rgba(15,15,20,0.4)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(239,68,68,0.3)] transition-all duration-300 rounded-[12px] overflow-hidden flex flex-col items-center gap-3 px-4 py-5"
               >
-                {p.imgURL ? (
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                {/* Logo 1:1 */}
+                <div className="w-full aspect-square rounded-[8px] overflow-hidden flex items-center justify-center">
+                  {p.imgURL ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={getImageUrl(p.imgURL)}
                       alt={p.nama}
-                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                      className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 p-3"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <span className="absolute bottom-0 left-0 right-0 px-[12px] py-[10px] font-['Poppins'] text-[13px] text-[#a1a1aa] group-hover:text-white font-medium tracking-wide text-center transition-colors duration-300">
-                      {p.nama}
+                  ) : (
+                    <span className="font-['Poppins'] text-[20px] font-bold text-white/20 group-hover:text-white/40 transition-colors duration-300">
+                      {p.nama.charAt(0).toUpperCase()}
                     </span>
-                  </div>
-                ) : (
-                  <div className="aspect-[2/1] flex items-center justify-center px-[16px]">
-                    <span className="font-['Poppins'] text-[14px] md:text-[16px] text-[#a1a1aa] group-hover:text-[#ffffff] font-medium tracking-wide text-center transition-colors duration-300">
-                      {p.nama}
-                    </span>
-                  </div>
-                )}
+                  )}
+                </div>
+                {/* Name */}
+                <span className="font-['Poppins'] text-[12px] text-[#a1a1aa] group-hover:text-white font-medium tracking-wide text-center transition-colors duration-300 leading-snug">
+                  {p.nama}
+                </span>
               </motion.div>
             ))}
           </div>
