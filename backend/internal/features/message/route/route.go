@@ -1,6 +1,8 @@
 package route
 
 import (
+	"time"
+
 	"github.com/go-chi/chi/v5"
 
 	"backend/internal/features/message/handler"
@@ -9,8 +11,8 @@ import (
 )
 
 func RegisterMessageRoutes(r chi.Router, h *handler.MessageHandler, jwtManager *utils.JWTManager) {
-	// Public: send a message
-	r.Post("/messages", h.Create)
+	// Public: send a message — max 3 per 10 menit per IP (anti-spam)
+	r.With(middleware.RateLimit(3, 10*time.Minute)).Post("/messages", h.Create)
 
 	// Protected: read / manage messages
 	r.Group(func(r chi.Router) {

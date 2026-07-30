@@ -26,36 +26,28 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="w-full max-w-sm relative">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-[380px]">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="mb-5">
-            <Image
-              src="/logo.webp"
-              alt="Tidex"
-              width={120}
-              height={40}
-              className="h-10 w-auto object-contain brightness-0 invert"
-            />
-          </div>
-          <p className="text-slate-400 text-sm">Masuk ke panel administrasi</p>
+          <Image
+            src="/logo.webp"
+            alt="Tidex"
+            width={120}
+            height={40}
+            className="h-9 w-auto object-contain mb-6"
+          />
+          <p className="text-sm text-slate-500">Panel administrasi Tidex</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6 flex flex-col gap-4 shadow-2xl"
+          className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)]"
         >
           {error && (
-            <div className="flex items-center gap-2.5 text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-2.5 text-red-700 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
               <svg
-                className="w-4 h-4 shrink-0"
+                className="w-4 h-4 shrink-0 text-red-500"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -70,9 +62,7 @@ export default function LoginForm() {
           )}
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs text-slate-400 font-medium tracking-wide uppercase">
-              Email
-            </label>
+            <label className="text-sm text-slate-700 font-medium">Email</label>
             <input
               type="email"
               required
@@ -81,15 +71,17 @@ export default function LoginForm() {
               onChange={(e) =>
                 setValues((v) => ({ ...v, email: e.target.value }))
               }
-              className="bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              placeholder="admin@tidex.id"
+              className="bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+              placeholder="admin@gmail.com"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs text-slate-400 font-medium tracking-wide uppercase">
-              Password
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="text-sm text-slate-700 font-medium">
+                Password
+              </label>
+            </div>
             <input
               type="password"
               required
@@ -98,7 +90,7 @@ export default function LoginForm() {
               onChange={(e) =>
                 setValues((v) => ({ ...v, password: e.target.value }))
               }
-              className="bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
               placeholder="••••••••"
             />
           </div>
@@ -106,7 +98,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-600/25 transition-all hover:shadow-blue-500/30 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+            className="w-full py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold shadow-sm transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-1"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -136,6 +128,10 @@ export default function LoginForm() {
             )}
           </button>
         </form>
+
+        <p className="text-center text-xs text-slate-400 mt-6">
+          Butuh bantuan? Hubungi administrator sistem
+        </p>
       </div>
     </div>
   );

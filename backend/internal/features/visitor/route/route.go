@@ -1,6 +1,8 @@
 package route
 
 import (
+	"time"
+
 	"github.com/go-chi/chi/v5"
 
 	"backend/internal/features/visitor/handler"
@@ -9,7 +11,8 @@ import (
 )
 
 func RegisterVisitorRoutes(r chi.Router, h *handler.VisitorHandler, jwtManager *utils.JWTManager) {
-	r.Post("/visitors/track", h.Track) // public — called from frontend
+	// Public: track visitor — max 30 per menit per IP (anti-inflate)
+	r.With(middleware.RateLimit(30, time.Minute)).Post("/visitors/track", h.Track)
 
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.JWTAuth(jwtManager))

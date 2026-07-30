@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 )
@@ -61,16 +63,43 @@ func (rl *rateLimiter) allow(ip string) bool {
 	return true
 }
 
+// realIP extracts the client IP safely.
+// X-Forwarded-For can contain multiple IPs (client, proxy1, proxy2).
+// We take the first entry which is the original client IP, then strip port from RemoteAddr.
+func realIP(r *http.Request) string {
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		// Take only the first (leftmost) IP — the actual client
+		if idx := len(xff); idx > 0 {
+			first := xff
+			for i, c := range xff {
+				if c == ',' {
+					first = xff[:i]
+					break
+				}
+			}
+			// trim whitespace
+			trimmed := strings.TrimSpace(first)
+			if trimmed != "" {
+				return trimmed
+			}
+		}
+	}
+	// Strip port from RemoteAddr (e.g. "1.2.3.4:5678" → "1.2.3.4")
+	ip := r.RemoteAddr
+	if host, _, err := net.SplitHostPort(ip); err == nil {
+		return host
+	}
+	return ip
+}
+
 func RateLimit(limit int, window time.Duration) func(http.Handler) http.Handler {
 	rl := newRateLimiter(limit, window)
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ip := r.RemoteAddr
-			if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-				ip = xff
-			}
+			ip := realIP(r)
 			if !rl.allow(ip) {
-				http.Error(w, `{"success":false,"message":"Too many requests"}`, http.StatusTooManyRequests)
+				w.Header().Set("Content-Type", "application/json")
+				http.Error(w, `{"success":false,"message":"Too many requests, coba lagi nanti"}`, http.StatusTooManyRequests)
 				return
 			}
 			next.ServeHTTP(w, r)
