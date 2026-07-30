@@ -28,8 +28,8 @@ func NewProductRepository(db *sql.DB) ProductRepository {
 
 func (r *postgresProductRepository) FindAll(ctx context.Context, search string) ([]dto.ProductResponse, error) {
 	query := `
-		SELECT p.id, p.kategori, p.nama, p.imgURL, p.deskripsi, p.logos,
-		       pt.id, pt.nama, pt.imgURL
+		SELECT p.id, p.kategori, p.nama, p."imgURL", p.deskripsi, p.logos,
+		       pt.id, pt.nama, pt."imgURL"
 		FROM our_product p
 		LEFT JOIN our_product_partner pp ON pp.product_id = p.id
 		LEFT JOIN our_partner pt ON pt.id = pp.partner_id`
@@ -85,8 +85,8 @@ func (r *postgresProductRepository) FindAll(ctx context.Context, search string) 
 
 func (r *postgresProductRepository) FindByID(ctx context.Context, id int) (*dto.ProductResponse, error) {
 	query := `
-		SELECT p.id, p.kategori, p.nama, p.imgURL, p.deskripsi, p.logos,
-		       pt.id, pt.nama, pt.imgURL
+		SELECT p.id, p.kategori, p.nama, p."imgURL", p.deskripsi, p.logos,
+		       pt.id, pt.nama, pt."imgURL"
 		FROM our_product p
 		LEFT JOIN our_product_partner pp ON pp.product_id = p.id
 		LEFT JOIN our_partner pt ON pt.id = pp.partner_id
@@ -133,7 +133,7 @@ func (r *postgresProductRepository) FindByID(ctx context.Context, id int) (*dto.
 func (r *postgresProductRepository) Create(ctx context.Context, p *entity.Product) (int, error) {
 	var id int
 	err := r.db.QueryRowContext(ctx,
-		`INSERT INTO our_product (kategori, nama, imgURL, deskripsi, logos) VALUES ($1,$2,$3,$4,$5) RETURNING id`,
+		`INSERT INTO our_product (kategori, nama, "imgURL", deskripsi, logos) VALUES ($1,$2,$3,$4,$5) RETURNING id`,
 		p.Kategori, p.Nama, p.ImgURL, p.Deskripsi, p.Logos,
 	).Scan(&id)
 	return id, err
@@ -141,7 +141,7 @@ func (r *postgresProductRepository) Create(ctx context.Context, p *entity.Produc
 
 func (r *postgresProductRepository) Update(ctx context.Context, p *entity.Product) error {
 	_, err := r.db.ExecContext(ctx,
-		`UPDATE our_product SET kategori=$1, nama=$2, imgURL=$3, deskripsi=$4, logos=$5 WHERE id=$6`,
+		`UPDATE our_product SET kategori=$1, nama=$2, "imgURL"=$3, deskripsi=$4, logos=$5 WHERE id=$6`,
 		p.Kategori, p.Nama, p.ImgURL, p.Deskripsi, p.Logos, p.ID,
 	)
 	return err

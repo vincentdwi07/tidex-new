@@ -68,9 +68,7 @@ func (h *ProjectHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p := entity.Project{
-		Nama:        r.FormValue("nama"),
-		Deskripsi:   r.FormValue("deskripsi"),
-		CompanyName: r.FormValue("company_name"),
+		Nama: r.FormValue("nama"),
 	}
 
 	f, fh, err := r.FormFile("image")
@@ -103,9 +101,7 @@ func (h *ProjectHandler) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p := entity.Project{
-		Nama:        r.FormValue("nama"),
-		Deskripsi:   r.FormValue("deskripsi"),
-		CompanyName: r.FormValue("company_name"),
+		Nama: r.FormValue("nama"),
 	}
 
 	f, fh, err := r.FormFile("image")

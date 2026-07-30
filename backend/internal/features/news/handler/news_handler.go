@@ -22,9 +22,7 @@ func NewNewsHandler(svc service.NewsService) *NewsHandler {
 
 func (h *NewsHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	p := common.GetPaginationParams(r, 10)
-	// Admin sees all; public only published
-	publishedOnly := r.URL.Query().Get("published") == "true"
-	data, err := h.service.GetAll(r.Context(), p.Limit, p.Offset, publishedOnly)
+	data, err := h.service.GetAll(r.Context(), p.Limit, p.Offset)
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
@@ -51,28 +49,16 @@ func (h *NewsHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	response.Success(w, http.StatusOK, "OK", data)
 }
 
-func (h *NewsHandler) GetBySlug(w http.ResponseWriter, r *http.Request) {
-	slug := chi.URLParam(r, "slug")
-	data, err := h.service.GetBySlug(r.Context(), slug)
-	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-	response.Success(w, http.StatusOK, "OK", data)
-}
-
 func (h *NewsHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		response.Error(w, http.StatusBadRequest, "Form tidak valid")
 		return
 	}
 
-	isPublished := r.FormValue("is_published") == "true"
 	n := entity.News{
-		Judul:       r.FormValue("judul"),
-		Slug:        r.FormValue("slug"),
-		Konten:      r.FormValue("konten"),
-		IsPublished: isPublished,
+		Judul:    r.FormValue("judul"),
+		Kategori: r.FormValue("kategori"),
+		News:     r.FormValue("news"),
 	}
 
 	f, fh, err := r.FormFile("image")
@@ -104,12 +90,10 @@ func (h *NewsHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	isPublished := r.FormValue("is_published") == "true"
 	n := entity.News{
-		Judul:       r.FormValue("judul"),
-		Slug:        r.FormValue("slug"),
-		Konten:      r.FormValue("konten"),
-		IsPublished: isPublished,
+		Judul:    r.FormValue("judul"),
+		Kategori: r.FormValue("kategori"),
+		News:     r.FormValue("news"),
 	}
 
 	f, fh, err := r.FormFile("image")

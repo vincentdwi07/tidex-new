@@ -43,9 +43,17 @@ func main() {
 	// JWT
 	jwtManager := utils.NewJWTManager(cfg.JWTSecret, cfg.JWTExpiry)
 
-	// Uploads directory (relative to binary)
-	exe, _ := os.Executable()
-	uploadsDir := filepath.Join(filepath.Dir(exe), "uploads")
+	// Uploads directory — use UPLOADS_DIR env var if set,
+	// otherwise default to ./uploads relative to working directory.
+	// NOTE: os.Executable() is NOT used because `go run` returns a temp path.
+	uploadsDir := os.Getenv("UPLOADS_DIR")
+	if uploadsDir == "" {
+		wd, err := os.Getwd()
+		if err != nil {
+			log.Fatalf("cannot get working directory: %v", err)
+		}
+		uploadsDir = filepath.Join(wd, "uploads")
+	}
 	uploader := filestore.NewFileUploader(uploadsDir, "/uploads")
 
 	// Validator

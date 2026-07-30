@@ -56,8 +56,8 @@ func (h *MessageHandler) Create(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, "Format JSON tidak valid")
 		return
 	}
-	if m.Name == "" || m.Email == "" || m.Message == "" {
-		response.Error(w, http.StatusBadRequest, "Name, email, dan message wajib diisi")
+	if m.Nama == "" || m.Email == "" || m.Pesan == "" {
+		response.Error(w, http.StatusBadRequest, "Nama, email, dan pesan wajib diisi")
 		return
 	}
 	data, err := h.service.Create(r.Context(), &m)

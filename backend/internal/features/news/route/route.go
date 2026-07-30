@@ -12,7 +12,6 @@ func RegisterNewsRoutes(r chi.Router, h *handler.NewsHandler, jwtManager *utils.
 	r.Route("/news", func(r chi.Router) {
 		// Public
 		r.Get("/", h.GetAll)
-		r.Get("/slug/{slug}", h.GetBySlug)
 		r.Get("/{id}", h.GetByID)
 
 		// Protected
