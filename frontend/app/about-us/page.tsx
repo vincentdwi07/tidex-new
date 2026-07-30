@@ -1,9 +1,21 @@
 import AboutUsPage from "@/features/User/about-us/about-us";
 
-export const metadata = {
-  title: "About Us | PT Titan Persada",
+import type { Metadata } from "next";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tidex.co.id";
+
+export const metadata: Metadata = {
+  title: "Tentang Kami",
   description:
-    "Learn about PT Titan Persada (Tidex) — a trusted technology integrator delivering end-to-end infrastructure, ICT, IT, and IoT solutions across Indonesia.",
+    "Kenali PT Titan Persada (Tidex) — technology integrator terpercaya yang menghadirkan solusi infrastruktur, ICT, IT, dan IoT secara end-to-end di seluruh Indonesia.",
+  alternates: { canonical: `${SITE_URL}/about-us` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/about-us`,
+    title: "Tentang Kami | Tidex",
+    description:
+      "Kenali PT Titan Persada (Tidex) — technology integrator terpercaya yang menghadirkan solusi infrastruktur, ICT, IT, dan IoT di seluruh Indonesia.",
+  },
 };
 
 export default function AboutUs() {

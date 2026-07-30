@@ -12,9 +12,66 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tidex.co.id";
+
 export const metadata: Metadata = {
-  title: "Tidex - Engineering Solutions",
-  description: "Engineered solutions for the connected enterprise.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Tidex | PT Titan Persada — Solusi Teknologi Enterprise",
+    template: "%s | Tidex",
+  },
+  description:
+    "PT Titan Persada (Tidex) — penyedia solusi teknologi terintegrasi meliputi infrastruktur, ICT, IT, dan IoT untuk enterprise di seluruh Indonesia.",
+  keywords: [
+    "Tidex",
+    "PT Titan Persada",
+    "solusi teknologi",
+    "infrastruktur IT",
+    "IoT",
+    "ICT",
+    "enterprise Indonesia",
+    "technology integrator",
+  ],
+  authors: [{ name: "PT Titan Persada", url: SITE_URL }],
+  creator: "PT Titan Persada",
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: SITE_URL,
+    siteName: "Tidex — PT Titan Persada",
+    title: "Tidex | PT Titan Persada — Solusi Teknologi Enterprise",
+    description:
+      "PT Titan Persada (Tidex) — penyedia solusi teknologi terintegrasi meliputi infrastruktur, ICT, IT, dan IoT untuk enterprise di seluruh Indonesia.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Tidex — PT Titan Persada",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tidex | PT Titan Persada — Solusi Teknologi Enterprise",
+    description:
+      "PT Titan Persada (Tidex) — penyedia solusi teknologi terintegrasi meliputi infrastruktur, ICT, IT, dan IoT untuk enterprise di seluruh Indonesia.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ backgroundColor: "#000" }}>
+    <html lang="id" style={{ backgroundColor: "#000" }}>
       <body
         className={`${poppins.className} antialiased`}
         style={{ backgroundColor: "#000" }}

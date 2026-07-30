@@ -1,5 +1,22 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Products from "@/features/User/product-and-service/product-and-service";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tidex.co.id";
+
+export const metadata: Metadata = {
+  title: "Produk & Layanan",
+  description:
+    "Temukan produk dan layanan teknologi PT Titan Persada (Tidex) — solusi infrastruktur jaringan, ICT, sistem keamanan, IT managed services, dan IoT untuk enterprise di Indonesia.",
+  alternates: { canonical: `${SITE_URL}/product-and-service` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/product-and-service`,
+    title: "Produk & Layanan | Tidex",
+    description:
+      "Solusi infrastruktur jaringan, ICT, sistem keamanan, IT managed services, dan IoT dari PT Titan Persada (Tidex).",
+  },
+};
 
 function ProductPageSkeleton() {
   return (
