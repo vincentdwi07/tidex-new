@@ -9,6 +9,15 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tanstack/react-table": "8.21.3",
+    "@tiptap/extension-color": "2.14.0",
+    "@tiptap/extension-font-family": "2.14.0",
+    "@tiptap/extension-text-align": "2.14.0",
+    "@tiptap/extension-text-style": "2.14.0",
+    "@tiptap/extension-underline": "2.14.0",
+    "@tiptap/pm": "2.14.0",
+    "@tiptap/react": "2.14.0",
+    "@tiptap/starter-kit": "2.14.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.1",
@@ -18,12 +27,17 @@
     "next": "16.1.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-easy-crop": "5.4.0",
     "react-icons": "^5.5.0",
+    "sonner": "1.7.4",
     "tailwind-merge": "^3.4.0",
     "three": "^0.167.1"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
+    "onlyBuiltDependencies": [
+      "sharp",
+      "unrs-resolver"
+    ]
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

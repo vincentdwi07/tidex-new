@@ -5,7 +5,7 @@ import { login } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import type { LoginFormValues } from "../schema/login.schema";
 
-export function useLogin(onSuccess: () => void) {
+export function useLogin() {
   const { setAuth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,8 +15,9 @@ export function useLogin(onSuccess: () => void) {
     setError("");
     try {
       const res = await login(values);
-      setAuth(res.data.user, res.data.token);
-      onSuccess();
+      const { access_token, id, email, name } = res.data;
+      setAuth({ id, email, name }, access_token);
+      // Navigation will be handled by useEffect in LoginForm after token is set
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login gagal");
     } finally {

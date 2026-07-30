@@ -1,151 +1,126 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Server, Cpu, Network, Radio, Sparkles } from "lucide-react";
-import serviceInfra from "@/public/services/service-infra.jpg";
-import serviceIct from "@/public/services/service-ict.jpg";
-import serviceIt from "@/public/services/service-it.jpg";
-import serviceIot from "@/public/services/service-iot.jpg";
-import { StaticImageData } from "next/image";
-import Image from "next/image";
 import { Glassmorph } from "@/lib/constant/Glassmorph";
 import BorderGlow from "@/components/BorderGlow";
+import {
+  getProducts,
+  getPartners,
+  getImageUrl,
+  type Product as ApiProduct,
+  type Partner,
+} from "@/lib/api";
 
-type Product = {
-  title: string;
-  desc: string;
-  image: StaticImageData;
-  brands: string[];
+const VALID_TABS = ["infra", "it", "ict", "iot"] as const;
+type TabId = (typeof VALID_TABS)[number];
+
+const KATEGORI_MAP: Record<string, TabId> = {
+  Infrastructure: "infra",
+  "Information Technology (IT)": "it",
+  "Information Communication Technology (ICT)": "ict",
+  "Internet of Things (IoT)": "iot",
 };
 
 const categories: {
-  id: string;
+  id: TabId;
   label: string;
   icon: typeof Server;
   tagline: string;
-  products: Product[];
 }[] = [
   {
     id: "infra",
     label: "Infrastructure",
     icon: Server,
     tagline: "Backbone-grade infrastructure engineered for continuity.",
-    products: [
-      {
-        title: "Structured Cable Systems",
-        desc: "Vertical and horizontal cabling up to the backbone, supporting voice, data, and video through a single wiring system that adheres to international multi-vendor standards — with a 25-year warranty for long-term peace of mind.",
-        image: serviceInfra,
-        brands: ["Siemon"],
-      },
-      {
-        title: "Gigabit Passive Optical Network (GPON)",
-        desc: "Fiber-to-the-Home networks engineered for higher speeds and long-distance transmission. GPON reduces active equipment, supports triple-play services, and enables point-to-multipoint connections with elevated downstream throughput.",
-        image: serviceIct,
-        brands: ["ZTE", "DASAN"],
-      },
-      {
-        title: "Uninterruptible Power Supply (UPS)",
-        desc: "Emergency power delivery the moment your primary source fails. Protects data centers, telecommunications equipment, and critical electronics from outages, equipment damage, and downtime.",
-        image: serviceIt,
-        brands: ["APC", "AWP"],
-      },
-      {
-        title: "Racking Server Network",
-        desc: "Server racks for organizing active devices — switches, storage, NVR — into clean, maintainable layouts. Patch panels, wire management, and cantilevers included as part of a complete installation service.",
-        image: serviceIot,
-        brands: ["IND4 Rack", "Siemon"],
-      },
-      {
-        title: "Raised Floor",
-        desc: "Professional raised floor solutions designed for optimal cable management, efficient cooling, and maximum flexibility — a secure, scalable foundation for modern data centers and server rooms.",
-        image: serviceInfra,
-        brands: ["Dawn"],
-      },
-    ],
   },
   {
     id: "it",
     label: "Information Technology",
     icon: Cpu,
     tagline: "Software, cloud, and security tailored to enterprise scale.",
-    products: [
-      {
-        title: "Custom Software Development",
-        desc: "Bespoke applications built around your operations — from internal tooling to customer-facing platforms — delivered with modern stacks and long-term maintainability in mind.",
-        image: serviceIt,
-        brands: ["Microsoft", "Oracle"],
-      },
-      {
-        title: "Cloud & Managed Services",
-        desc: "Cloud migration, hybrid architecture, and 24/7 managed operations to keep your workloads performant, observable, and cost-efficient.",
-        image: serviceIct,
-        brands: ["AWS", "Azure"],
-      },
-      {
-        title: "Network Security",
-        desc: "Layered defense including next-gen firewalls, endpoint protection, and continuous monitoring to safeguard data, identities, and infrastructure.",
-        image: serviceInfra,
-        brands: ["Fortinet", "Cisco"],
-      },
-    ],
   },
   {
     id: "ict",
     label: "Information Communication (ICT)",
     icon: Network,
     tagline: "Unified communications and connectivity for modern teams.",
-    products: [
-      {
-        title: "Networking & IT Services",
-        desc: "End-to-end LAN, WAN, and SD-WAN deployments with structured monitoring and lifecycle management for enterprise environments.",
-        image: serviceIct,
-        brands: ["Cisco", "Aruba"],
-      },
-      {
-        title: "PABX & WiFi Solutions",
-        desc: "Enterprise telephony and high-density wireless coverage that scales across offices, factories, and campuses without compromise.",
-        image: serviceIt,
-        brands: ["Panasonic", "Ruckus"],
-      },
-      {
-        title: "Public Address & Broadcasting",
-        desc: "Crystal-clear PA, intercom, and broadcasting systems engineered for reliability in mission-critical and large-venue environments.",
-        image: serviceInfra,
-        brands: ["TOA", "Bosch"],
-      },
-    ],
   },
   {
     id: "iot",
     label: "Internet of Things",
     icon: Radio,
     tagline: "Connected sensing, automation, and intelligence at the edge.",
-    products: [
-      {
-        title: "Smart Building Automation",
-        desc: "Centralized control of HVAC, lighting, access, and energy — turning buildings into responsive, efficient, data-driven assets.",
-        image: serviceIot,
-        brands: ["Siemens", "Schneider"],
-      },
-      {
-        title: "Environmental Monitoring",
-        desc: "Real-time sensing of temperature, humidity, air quality, and power conditions across distributed sites with intelligent alerting.",
-        image: serviceIct,
-        brands: ["Vaisala", "Honeywell"],
-      },
-      {
-        title: "IoT Performance Analytics",
-        desc: "Edge-to-cloud telemetry pipelines and dashboards that turn raw device data into operational decisions and predictive insight.",
-        image: serviceIt,
-        brands: ["AWS IoT", "Azure IoT"],
-      },
-    ],
   },
 ];
 
+function resolveTab(param: string | null): TabId {
+  if (param && VALID_TABS.includes(param as TabId)) return param as TabId;
+  return "infra";
+}
+
 const Products = () => {
-  const [active, setActive] = useState(categories[0].id);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [active, setActive] = useState<TabId>(() =>
+    resolveTab(searchParams.get("tab")),
+  );
+  const [products, setProducts] = useState<ApiProduct[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Sync active tab when URL param changes (e.g. browser back/forward)
+  useEffect(() => {
+    setActive(resolveTab(searchParams.get("tab")));
+  }, [searchParams]);
+
+  useEffect(() => {
+    Promise.all([getProducts(1, 200), getPartners(1, 200)])
+      .then(([prodRes, partRes]) => {
+        setProducts(prodRes.data || []);
+        setPartners(partRes.data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load data:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  function handleTabChange(tabId: TabId) {
+    setActive(tabId);
+    router.push(`/product-and-service?tab=${tabId}`, { scroll: false });
+  }
+
+  // Group products by tab id
+  const grouped = categories.reduce(
+    (acc, cat) => {
+      const kategoriKey = Object.entries(KATEGORI_MAP).find(
+        ([, v]) => v === cat.id,
+      )?.[0];
+      acc[cat.id] = kategoriKey
+        ? products.filter((p) => p.kategori === kategoriKey)
+        : [];
+      return acc;
+    },
+    {} as Record<TabId, ApiProduct[]>,
+  );
+
+  // Resolve partner logos from comma-separated IDs
+  function resolveLogos(logosStr: string): Partner[] {
+    if (!logosStr) return [];
+    return logosStr
+      .split(",")
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => !isNaN(n))
+      .map((id) => partners.find((p) => p.id === id))
+      .filter(Boolean) as Partner[];
+  }
+
   const current = categories.find((c) => c.id === active)!;
+  const activeProducts = grouped[active] ?? [];
 
   return (
     <>
@@ -209,7 +184,7 @@ const Products = () => {
               return (
                 <button
                   key={c.id}
-                  onClick={() => setActive(c.id)}
+                  onClick={() => handleTabChange(c.id)}
                   className={`relative flex grow items-center justify-center gap-2 px-4 md:px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
                     isActive ? "text-white" : "text-white/60 hover:text-white"
                   }`}
@@ -237,20 +212,37 @@ const Products = () => {
       {/* Product List */}
       <section className="px-10 xl:px-0 bg-black pt-10 md:pt-14 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35 }}
-              className="space-y-6 md:space-y-8"
-            >
-              {current.products.map((p, i) => (
-                <ProductRow key={p.title} product={p} index={i} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+          {loading ? (
+            <div className="text-center text-white/40 py-20 text-sm">
+              Loading products...
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35 }}
+                className="space-y-6 md:space-y-8"
+              >
+                {activeProducts.length === 0 ? (
+                  <div className="text-center text-white/40 py-16 text-sm">
+                    Belum ada produk untuk kategori ini.
+                  </div>
+                ) : (
+                  activeProducts.map((p, i) => (
+                    <ProductRow
+                      key={p.id}
+                      product={p}
+                      index={i}
+                      logos={resolveLogos(p.logos)}
+                    />
+                  ))
+                )}
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
       </section>
     </>
@@ -260,9 +252,11 @@ const Products = () => {
 const ProductRow = ({
   product,
   index,
+  logos,
 }: {
-  product: Product;
+  product: ApiProduct;
   index: number;
+  logos: Partner[];
 }) => {
   const reverse = index % 2 === 1;
   return (
@@ -289,43 +283,64 @@ const ProductRow = ({
         >
           {/* Image */}
           <div className="relative aspect-4/3 md:aspect-auto md:min-h-90 overflow-hidden!">
-            <Image
-              src={product.image}
-              alt={product.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105"
-            />
+            {product.imgURL ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={getImageUrl(product.imgURL)}
+                alt={product.nama}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900" />
+            )}
             <div className="absolute inset-0" />
           </div>
 
-          {/* Content */}
-          <div className="relative p-7 md:p-12 flex flex-col justify-center">
-            <div className="flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/80 mb-4">
-              <span className="w-6 h-px bg-primary/60" />0{index + 1}
+          {/* Content — flex col, justify-between so trusted brands always at bottom */}
+          <div className="relative p-7 md:p-12 flex flex-col justify-between min-h-64 md:min-h-90">
+            {/* Top: number + title + desc */}
+            <div>
+              <div className="flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/80 mb-4">
+                <span className="w-6 h-px bg-primary/60" />0{index + 1}
+              </div>
+              <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight mb-4 tracking-tight">
+                {product.nama}
+              </h3>
+              <p className="text-white/80 text-sm md:text-[15px] leading-relaxed max-w-xl line-clamp-5">
+                {product.deskripsi}
+              </p>
             </div>
-            <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight mb-4 tracking-tight">
-              {product.title}
-            </h3>
-            <p className="text-white/80 text-sm md:text-[15px] leading-relaxed mb-7 max-w-xl">
-              {product.desc}
-            </p>
 
-            <div className="flex items-end justify-between gap-6 flex-wrap">
-              <div>
-                <div className="text-[10px] tracking-[0.25em] uppercase text-white/50 mb-2">
+            {/* Bottom: Trusted Brands — always at bottom */}
+            {logos.length > 0 && (
+              <div className="mt-7">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-white/50 mb-3">
                   Trusted Brands
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.brands.map((b) => (
-                    <span
-                      key={b}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium text-white/90 bg-white/5 border border-white/10 backdrop-blur"
+                  {logos.map((partner) => (
+                    <div
+                      key={partner.id}
+                      className="w-10 h-10 rounded-lg bg-white/10 border border-white/15 overflow-hidden flex items-center justify-center"
+                      title={partner.nama}
                     >
-                      {b}
-                    </span>
+                      {partner.imgURL ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getImageUrl(partner.imgURL)}
+                          alt={partner.nama}
+                          className="w-8 h-8 object-contain"
+                        />
+                      ) : (
+                        <span className="text-[9px] text-white/50 text-center px-0.5 leading-tight">
+                          {partner.nama.slice(0, 3)}
+                        </span>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </BorderGlow>

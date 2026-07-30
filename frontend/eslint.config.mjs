@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // Allow setState inside useEffect for async data fetching pattern
+      "react-hooks/set-state-in-effect": "off",
+      // Allow reading ref.current in dependency arrays for reload tick pattern
+      "react-compiler/react-compiler": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

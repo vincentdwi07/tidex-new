@@ -21,8 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} antialiased`}>
+    <html lang="en" style={{ backgroundColor: "#000" }}>
+      <body
+        className={`${poppins.className} antialiased`}
+        style={{ backgroundColor: "#000" }}
+      >
         <AuthProvider>
           <ConditionalShell>{children}</ConditionalShell>
         </AuthProvider>

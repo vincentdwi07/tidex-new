@@ -1,13 +1,13 @@
 export interface NewsFormValues {
   judul: string;
-  konten: string;
-  is_published: boolean;
+  kategori: string;
+  news: string;
   imageFile?: File;
 }
 
 export const defaultNewsForm: NewsFormValues = {
   judul: "",
-  konten: "",
-  is_published: false,
+  kategori: "",
+  news: "",
   imageFile: undefined,
 };

@@ -32,19 +32,20 @@ export interface AuthUser {
 }
 
 export interface LoginResponse {
-  token: string;
-  user: AuthUser;
+  access_token: string;
+  id: number;
+  email: string;
+  name: string;
 }
 
 // Product
 export interface Product {
   id: number;
-  nama: string;
-  deskripsi: string;
-  imgURL: string;
   kategori: string;
-  created_at: string;
-  updated_at: string;
+  nama: string;
+  imgURL: string;
+  deskripsi: string;
+  logos: string;
 }
 
 // Partner
@@ -52,20 +53,13 @@ export interface Partner {
   id: number;
   nama: string;
   imgURL: string;
-  website_url: string;
-  created_at: string;
-  updated_at: string;
 }
 
 // Project
 export interface Project {
   id: number;
   nama: string;
-  deskripsi: string;
   imgURL: string;
-  company_name: string;
-  created_at: string;
-  updated_at: string;
 }
 
 // Message
@@ -74,7 +68,9 @@ export interface Message {
   nama: string;
   email: string;
   pesan: string;
+  isNew: boolean;
   created_at: string;
+  updated_at: string | null;
 }
 
 export interface MessagePayload {
@@ -87,10 +83,9 @@ export interface MessagePayload {
 export interface News {
   id: number;
   judul: string;
-  slug: string;
-  konten: string;
+  kategori: string;
+  news: string;
   imgURL: string;
-  is_published: boolean;
   created_at: string;
-  updated_at: string;
+  updated_at: string | null;
 }

@@ -1,8 +1,8 @@
-'use client'
+"use client";
 import { motion } from "framer-motion";
 import SectionHeading from "../SectionHeading";
 import { ArrowUpRight } from "lucide-react";
-import serviceInfra from "@/public/services/service-infra.jpg"
+import serviceInfra from "@/public/services/service-infra.jpg";
 import serviceIct from "@/public/services/service-ict.jpg";
 import serviceIt from "@/public/services/service-it.jpg";
 import serviceIot from "@/public/services/service-iot.jpg";
@@ -50,19 +50,26 @@ const ServicesSection = () => (
             transition={{ delay: i * 0.1, duration: 0.5 }}
             className="group relative rounded-2xl overflow-hidden h-[420px] cursor-pointer"
           >
-
-            <Image src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <Image
+              src={s.image}
+              alt={s.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
             <div className="absolute inset-0 border border-white/5 rounded-2xl border-white/20 transition-colors duration-500" />
 
             <div className="relative z-10 h-full flex flex-col justify-end p-8">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-display text-xl font-bold text-white tracking-tight">{s.title}</h3>
-                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300 shrink-0"> 
+                <h3 className="font-display text-xl font-bold text-white tracking-tight">
+                  {s.title}
+                </h3>
+                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300 shrink-0">
                   <ArrowUpRight className="w-5 h-5 text-white group-hover:text-black transition-colors" />
                 </div>
               </div>
-              <p className="text-white/80 text-sm leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-300 line-clamp-3">{s.desc}</p>
+              <p className="text-white/80 text-sm leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-300 line-clamp-3">
+                {s.desc}
+              </p>
             </div>
           </motion.div>
         ))}

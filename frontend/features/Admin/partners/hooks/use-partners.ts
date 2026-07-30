@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
+import { adminToast } from "@/features/Admin/components/AdminToast";
 import {
   getPartners,
   createPartner,
@@ -10,46 +11,92 @@ import {
 import type { Partner } from "@/lib/api";
 import type { PartnerFormValues } from "../schema/partner.schema";
 
+let cache: Partner[] | null = null;
+
 export function usePartners() {
-  const [items, setItems] = useState<Partner[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<Partner[]>(cache ?? []);
+  const [loading, setLoading] = useState(cache === null);
   const [error, setError] = useState("");
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await getPartners(1, 50);
-      setItems(res.data ?? []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Gagal memuat data");
-    } finally {
+  useEffect(() => {
+    if (cache !== null) {
+      setItems(cache);
       setLoading(false);
+      return;
     }
+
+    let cancelled = false;
+    setLoading(true);
+    getPartners(1, 100)
+      .then((res) => {
+        if (!cancelled) {
+          cache = res.data ?? [];
+          setItems(cache);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          const msg = err instanceof Error ? err.message : "Gagal memuat data";
+          setError(msg);
+          setLoading(false);
+          adminToast.error("Gagal memuat partner", msg);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  function invalidate() {
+    cache = null;
+    setLoading(true);
+    setError("");
+    getPartners(1, 100)
+      .then((res) => {
+        cache = res.data ?? [];
+        setItems(cache);
+        setLoading(false);
+      })
+      .catch((err) => {
+        const msg = err instanceof Error ? err.message : "Gagal memuat data";
+        setError(msg);
+        setLoading(false);
+      });
+  }
 
   async function save(values: PartnerFormValues, editId: number | null) {
     const fd = new FormData();
     fd.append("nama", values.nama);
-    fd.append("website_url", values.website_url);
     if (values.imageFile) fd.append("image", values.imageFile);
 
-    if (editId) {
-      await updatePartner(editId, fd);
-    } else {
-      await createPartner(fd);
+    try {
+      if (editId) {
+        await updatePartner(editId, fd);
+        adminToast.success("Partner diperbarui", `"${values.nama}" berhasil disimpan.`);
+      } else {
+        await createPartner(fd);
+        adminToast.success("Partner ditambahkan", `"${values.nama}" berhasil ditambahkan.`);
+      }
+      invalidate();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Gagal menyimpan partner";
+      adminToast.error("Gagal menyimpan", msg);
+      throw err;
     }
-    await load();
   }
 
   async function remove(id: number) {
-    await deletePartner(id);
-    await load();
+    try {
+      await deletePartner(id);
+      adminToast.success("Partner dihapus", "Data partner berhasil dihapus.");
+      invalidate();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Gagal menghapus partner";
+      adminToast.error("Gagal menghapus", msg);
+      throw err;
+    }
   }
 
-  return { items, loading, error, save, remove, reload: load };
+  return { items, loading, error, save, remove, reload: invalidate };
 }
