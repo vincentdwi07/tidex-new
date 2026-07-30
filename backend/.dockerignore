@@ -1,0 +1,6 @@
+.env
+*.exe
+uploads/
+.git
+.gitignore
+README.md
