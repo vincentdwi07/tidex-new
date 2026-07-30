@@ -20,7 +20,6 @@ async function getCroppedBlob(
   imageSrc: string,
   pixelCrop: Area,
 ): Promise<Blob> {
-  // imageSrc may be a blob URL (from local file) or an http URL (existing image)
   const response = await fetch(imageSrc);
   const blob = await response.blob();
   const image = await createImageBitmap(blob);
@@ -69,7 +68,6 @@ export default function ImageUploadWithCrop({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate size
     if (file.size > MAX_FILE_SIZE_BYTES) {
       setSizeError(
         `Ukuran file maksimal ${MAX_FILE_SIZE_MB}MB. File ini ${(file.size / 1024 / 1024).toFixed(1)}MB.`,
@@ -101,7 +99,6 @@ export default function ImageUploadWithCrop({
       setPreview(previewUrl);
       onChange(file);
       setModalOpen(false);
-      // revoke raw src after save
       URL.revokeObjectURL(rawSrc);
       setRawSrc(null);
     } catch {
@@ -117,17 +114,13 @@ export default function ImageUploadWithCrop({
     setRawSrc(null);
   }
 
-  // preview from local crop, or existing value from backend (needs base URL prepended)
+  // Preview from local crop, or existing value from backend
   const displaySrc = preview ?? (value ? getImageUrl(value) : null);
 
-  // Build padding-bottom percentage from aspect ratio for proper box
-  // e.g. 1:1 → 100%, 16:9 → 56.25%, 4:3 → 75%
-  const paddingBottom = `${(1 / aspectRatio) * 100}%`;
-
-  // Cap preview width based on aspect ratio — fix height to ~120px
-  // 1:1 → 120px wide, 4:3 → 160px wide, 16:9 → 213px wide
-  const PREVIEW_HEIGHT = 120;
-  const previewWidth = Math.round(PREVIEW_HEIGHT * aspectRatio);
+  // Fixed height preview, width computed from aspect ratio
+  // e.g. 1:1 → 160×160px, 4:3 → 213×160px, 16:9 → 284×160px
+  const PREVIEW_H = 160;
+  const previewW = Math.round(PREVIEW_H * aspectRatio);
 
   return (
     <div className="flex flex-col gap-2">
@@ -136,17 +129,16 @@ export default function ImageUploadWithCrop({
       )}
       {hint && <p className="text-xs text-gray-400">{hint}</p>}
 
-      {/* Preview / Upload trigger */}
+      {/* Preview / Upload trigger — constrained to computed width */}
       <div
         className="group cursor-pointer"
-        style={{ width: `${previewWidth}px`, maxWidth: "100%" }}
+        style={{ width: previewW, maxWidth: "100%" }}
         onClick={() => inputRef.current?.click()}
       >
         {displaySrc ? (
-          // Fixed aspect ratio container using padding trick
           <div
             className="relative w-full rounded-md overflow-hidden border border-gray-200 bg-gray-50"
-            style={{ paddingBottom }}
+            style={{ height: PREVIEW_H }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -161,18 +153,13 @@ export default function ImageUploadWithCrop({
             </div>
           </div>
         ) : (
-          // Upload placeholder — also respects aspect ratio
           <div
-            className="relative w-full border-2 border-dashed border-gray-200 rounded-md hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
-            style={{ paddingBottom }}
+            className="relative w-full border-2 border-dashed border-gray-200 rounded-md hover:border-blue-400 hover:bg-blue-50/30 transition-colors flex flex-col items-center justify-center gap-2"
+            style={{ height: PREVIEW_H }}
           >
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-              <Upload className="w-6 h-6 text-gray-300" />
-              <p className="text-xs text-gray-400">Klik untuk pilih gambar</p>
-              <p className="text-xs text-gray-300">
-                Maks. {MAX_FILE_SIZE_MB}MB
-              </p>
-            </div>
+            <Upload className="w-6 h-6 text-gray-300" />
+            <p className="text-xs text-gray-400">Klik untuk pilih gambar</p>
+            <p className="text-xs text-gray-300">Maks. {MAX_FILE_SIZE_MB}MB</p>
           </div>
         )}
       </div>
@@ -205,12 +192,10 @@ export default function ImageUploadWithCrop({
               </button>
             </div>
 
-            {/* Crop area — height adapts to aspect ratio */}
+            {/* Crop area */}
             <div
               className="relative bg-gray-900"
               style={{
-                // For 1:1: 400px wide modal → 400px tall; for 16:9 → 225px
-                // Use a fixed 360px wide inner and derive height
                 height: aspectRatio >= 1 ? 320 : Math.round(360 / aspectRatio),
               }}
             >
