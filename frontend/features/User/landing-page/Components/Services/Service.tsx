@@ -32,7 +32,7 @@ const services = [
 ];
 
 const ServicesSection = () => (
-  <section id="services" className="section-padding bg-black py-10">
+  <section id="services" className="section-padding bg-white py-10">
     <div className="max-w-[1400px] mx-auto">
       <SectionHeading
         subtitle="What We Do"

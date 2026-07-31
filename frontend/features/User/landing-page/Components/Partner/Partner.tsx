@@ -24,14 +24,14 @@ const PartnersSection = () => {
 
   if (loading) {
     return (
-      <section className="section-padding relative overflow-hidden py-[100px] bg-black">
+      <section className="section-padding relative overflow-hidden py-[100px] bg-white">
         <div className="absolute inset-0 grid-pattern opacity-30" />
         <div className="relative z-10 mx-auto">
           <SectionHeading
             subtitle="Our Partners"
             title="Trusted by Industry Leaders"
           />
-          <div className="text-center text-white/50 py-12">
+          <div className="text-center text-neutral-500 py-12">
             Loading partners...
           </div>
         </div>
@@ -41,14 +41,14 @@ const PartnersSection = () => {
 
   if (partners.length === 0) {
     return (
-      <section className="section-padding relative overflow-hidden py-[100px] bg-black">
+      <section className="section-padding relative overflow-hidden py-[100px] bg-white">
         <div className="absolute inset-0 grid-pattern opacity-30" />
         <div className="relative z-10 mx-auto">
           <SectionHeading
             subtitle="Our Partners"
             title="Trusted by Industry Leaders"
           />
-          <div className="text-center text-white/50 py-12">
+          <div className="text-center text-neutral-500 py-12">
             No partners available
           </div>
         </div>
@@ -57,7 +57,7 @@ const PartnersSection = () => {
   }
 
   return (
-    <section className="section-padding relative overflow-hidden py-[100px] bg-black">
+    <section className="section-padding relative overflow-hidden py-[100px] bg-white">
       <div className="absolute inset-0 grid-pattern opacity-30" />
       <div className="relative z-10 mx-auto">
         <SectionHeading
@@ -67,8 +67,8 @@ const PartnersSection = () => {
 
         {/* Infinite Marquee */}
         <div className="relative overflow-hidden max-w-[1400px] mx-auto">
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -77,8 +77,8 @@ const PartnersSection = () => {
             {[...partners, ...partners].map((p, i) => (
               <div
                 key={i}
-                className="bg-[hsl(240_12%_7%_/_0.4)] backdrop-blur-xl border border-border/50 rounded-xl
-                        w-[250px] min-h-[100px] py-3 flex items-center justify-center shrink-0"
+                className="bg-zinc-50 border border-zinc-200/60 rounded-xl
+                        w-[250px] min-h-[100px] py-3 flex items-center justify-center shrink-0 shadow-sm"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

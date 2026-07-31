@@ -20,7 +20,7 @@ const SectionHeading = ({ subtitle, title, description }: SectionHeadingProps) =
     <span className="text-red-500 font-display text-sm tracking-[0.3em] uppercase mb-3 block">
       {subtitle}
     </span>
-    <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4">
+    <h2 className="font-display text-3xl md:text-5xl font-bold text-neutral-900 mb-4">
       {title}
     </h2>
     <div className={`w-24 h-0.5 ${GlowLine} mx-auto mb-6`} />

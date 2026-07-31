@@ -35,12 +35,12 @@ const Navbar = () => {
             >
               <a
                 href={link.href}
-                className="relative isolate px-4 py-2 rounded-[80px] text-white flex gap-1 items-center overflow-hidden
+                className="relative isolate px-4 py-2 rounded-[80px] text-neutral-900 flex gap-1 items-center overflow-hidden
                   after:content-[''] after:absolute after:inset-0
-                  after:bg-white after:origin-center after:scale-x-0
+                  after:bg-neutral-900 after:origin-center after:scale-x-0
                   after:transition-transform after:duration-400
                   after:z-0
-                  hover:after:scale-x-100 hover:text-black duration-500 transition-colors"
+                  hover:after:scale-x-100 hover:text-white duration-500 transition-colors"
               >
                 <span className="relative z-10 flex gap-1 items-center">
                   {link.label}
@@ -64,14 +64,14 @@ const Navbar = () => {
                       : "opacity-0 -translate-y-2 pointer-events-none"
                   }`}
                 >
-                  <div className="bg-black rounded-2xl overflow-hidden min-w-[260px] border border-white/10 shadow-2xl">
+                  <div className="bg-white/95 backdrop-blur-md rounded-2xl overflow-hidden min-w-[260px] border border-zinc-200/80 shadow-2xl">
                     {link.dropdown.map((item, idx) => (
                       <a
                         key={item.href}
                         href={item.href}
-                        className={`flex items-center gap-3 px-5 py-3.5 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 text-sm ${
+                        className={`flex items-center gap-3 px-5 py-3.5 text-neutral-700 hover:text-black hover:bg-neutral-100 transition-all duration-200 text-sm ${
                           idx !== link.dropdown!.length - 1
-                            ? "border-b border-white/10"
+                            ? "border-b border-neutral-100"
                             : ""
                         }`}
                       >
@@ -93,18 +93,18 @@ const Navbar = () => {
           href="https://wa.me/62818311037"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:flex group bg-transparent text-white rounded-[80px] px-4 py-2 gap-2 items-center relative overflow-hidden border-white/50 border"
+          className="hidden md:flex group bg-transparent text-neutral-900 rounded-[80px] px-4 py-2 gap-2 items-center relative overflow-hidden border-neutral-900/50 border"
         >
-          <span className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease origin-right z-0" />
-          <FaPhoneAlt className="relative z-10 text-white group-hover:text-black transition-all duration-500 ease" />
-          <span className="relative z-10 rounded-[80px] text-white group-hover:text-black transition-all duration-500 ease">
+          <span className="absolute inset-0 bg-neutral-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease origin-right z-0" />
+          <FaPhoneAlt className="relative z-10 text-neutral-900 group-hover:text-white transition-all duration-500 ease" />
+          <span className="relative z-10 rounded-[80px] text-neutral-900 group-hover:text-white transition-all duration-500 ease">
             Contact Us
           </span>
         </a>
 
         {/* Mobile hamburger — visible on mobile only */}
         <button
-          className="md:hidden text-white p-2"
+          className="md:hidden text-neutral-900 p-2"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
         >
@@ -128,7 +128,7 @@ const Navbar = () => {
                           v === link.href ? null : link.href,
                         )
                       }
-                      className="w-full flex items-center justify-between px-5 py-3 text-white/80 hover:text-white hover:bg-white/5 transition-colors text-sm"
+                      className="w-full flex items-center justify-between px-5 py-3 text-neutral-800 hover:text-black hover:bg-neutral-100 transition-colors text-sm"
                     >
                       <span className="flex items-center gap-2">
                         {link.icon}
@@ -142,12 +142,12 @@ const Navbar = () => {
                       />
                     </button>
                     {mobileDropdown === link.href && (
-                      <div className="bg-white/5 border-t border-white/10">
+                      <div className="bg-neutral-50/50 border-t border-neutral-200/60">
                         {link.dropdown.map((item) => (
                           <a
                             key={item.href}
                             href={item.href}
-                            className="flex items-center gap-3 px-8 py-3 text-white/70 hover:text-white hover:bg-white/5 transition-colors text-sm"
+                            className="flex items-center gap-3 px-8 py-3 text-neutral-600 hover:text-black hover:bg-neutral-100 transition-colors text-sm"
                             onClick={() => setMobileOpen(false)}
                           >
                             <span className="text-red-400 shrink-0">
@@ -162,7 +162,7 @@ const Navbar = () => {
                 ) : (
                   <a
                     href={link.href}
-                    className="flex items-center gap-2 px-5 py-3 text-white/80 hover:text-white hover:bg-white/5 transition-colors text-sm"
+                    className="flex items-center gap-2 px-5 py-3 text-neutral-800 hover:text-black hover:bg-neutral-100 transition-colors text-sm"
                     onClick={() => setMobileOpen(false)}
                   >
                     {link.icon}
@@ -173,7 +173,7 @@ const Navbar = () => {
             ))}
 
             {/* Contact Us button in mobile menu */}
-            <div className="px-4 pt-2 pb-3 border-t border-white/10 mt-1">
+            <div className="px-4 pt-2 pb-3 border-t border-neutral-200/60 mt-1">
               <a
                 href="https://wa.me/62818311037"
                 target="_blank"

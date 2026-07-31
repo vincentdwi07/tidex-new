@@ -80,10 +80,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" style={{ backgroundColor: "#000" }}>
+    <html lang="id">
       <body
         className={`${poppins.className} antialiased`}
-        style={{ backgroundColor: "#000" }}
       >
         <AuthProvider>
           <VisitorTracker />

@@ -25,7 +25,7 @@ const certificate = [
 ]
 
 const CertificatesSection = () => (
-  <section className="section-padding bg-black py-[100px]">
+  <section className="section-padding bg-white py-[100px]">
     <div className="max-w-[1400px] mx-auto grid grid-cols-3 items-center">
       <div className="col-span-1">
         <motion.div
@@ -37,11 +37,11 @@ const CertificatesSection = () => (
           <span className="text-red-500 font-display text-sm tracking-[0.3em] uppercase mb-4 block font-semibold text-center lg:text-left">
             CERTIFICATIONS
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6 leading-tight text-center lg:text-left">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-neutral-900 mb-6 leading-tight text-center lg:text-left">
             Our Certificate
           </h2>
           <div className={`w-24 h-0.5 ${GlowLine} mb-8 mx-auto lg:mx-0`} />
-          <p className="text-white/80 text-base leading-relaxed">
+          <p className="text-neutral-600 text-base leading-relaxed">
             Internationally recognized certifications that validate our commitment to quality and excellence.
           </p>
           
@@ -63,7 +63,7 @@ const CertificatesSection = () => (
         >
           {certificate.map((item, index) => (
             // @ts-ignore
-            <Card key={index} customClass="group overflow-hidden border border-white/20 bg-black">
+            <Card key={index} customClass="group overflow-hidden border border-neutral-200 bg-white rounded-2xl shadow-md">
               <Image
                 src={item.url}
                 alt={item.image}

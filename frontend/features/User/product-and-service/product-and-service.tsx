@@ -111,13 +111,13 @@ const Products = () => {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-black overflow-hidden pt-24 md:pt-32 pb-16 md:pb-24 px-10 xl:px-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.1),transparent_70%)]" />
-        <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-125 h-125 rounded-full bg-red-500/5 blur-[120px]" />
+      <section className="relative bg-white overflow-hidden pt-24 md:pt-32 pb-16 md:pb-24 px-10 xl:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.02),transparent_70%)]" />
+        <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-125 h-125 rounded-full bg-red-500/2 blur-[120px]" />
 
         <div
           aria-hidden
-          className="absolute -top-40 left-1/2 -translate-x-1/2 w-225 h-225 rounded-full blur-3xl opacity-30"
+          className="absolute -top-40 left-1/2 -translate-x-1/2 w-225 h-225 rounded-full blur-3xl opacity-10"
           style={{
             background:
               "radial-gradient(closest-side, hsl(var(--primary) / 0.55), transparent 70%)",
@@ -128,7 +128,7 @@ const Products = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05]"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-neutral-900 tracking-tight leading-[1.05]"
           >
             Engineered Solutions <br className="hidden md:block" />
             for the{" "}
@@ -140,7 +140,7 @@ const Products = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white/80 font-light md:text-lg max-w-2xl mx-auto mt-6 leading-relaxed"
+            className="text-neutral-600 font-light md:text-lg max-w-2xl mx-auto mt-6 leading-relaxed"
           >
             A unified portfolio across Infrastructure, IT, ICT, and IoT —
             designed to operate at the standard of a modern, mission-critical
@@ -150,10 +150,10 @@ const Products = () => {
       </section>
 
       {/* Tabs */}
-      <section className="relative bg-black px-10 xl:px-0">
+      <section className="relative bg-white px-10 xl:px-0">
         <div className="max-w-7xl mx-auto">
           <div
-            className={`sticky top-17 z-30 ${Glassmorph} rounded-2xl p-1.5 flex gap-1 overflow-x-auto no-scrollbar`}
+            className={`sticky top-17 z-30 ${Glassmorph} rounded-2xl p-1.5 flex gap-1 overflow-x-auto no-scrollbar border border-neutral-200/60`}
           >
             {categories.map((c) => {
               const Icon = c.icon;
@@ -163,13 +163,13 @@ const Products = () => {
                   key={c.id}
                   onClick={() => handleTabChange(c.id)}
                   className={`relative flex grow items-center justify-center gap-2 px-4 md:px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
-                    isActive ? "text-white" : "text-white/60 hover:text-white"
+                    isActive ? "text-white" : "text-neutral-500 hover:text-neutral-900"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="tab-active"
-                      className="absolute inset-0 rounded-xl bg-[#120F17] border border-red-500/30 shadow-[0_0_30px_-10px_#ef444499]"
+                      className="absolute inset-0 rounded-xl bg-neutral-900 border border-neutral-800 shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
                       transition={{
                         type: "spring",
                         stiffness: 350,
@@ -187,10 +187,10 @@ const Products = () => {
       </section>
 
       {/* Product List */}
-      <section className="px-10 xl:px-0 bg-black pt-10 md:pt-14 pb-24 md:pb-32">
+      <section className="px-10 xl:px-0 bg-white pt-10 md:pt-14 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto">
           {loading ? (
-            <div className="text-center text-white/40 py-20 text-sm">
+            <div className="text-center text-neutral-500 py-20 text-sm">
               Loading products...
             </div>
           ) : (
@@ -204,7 +204,7 @@ const Products = () => {
                 className="space-y-6 md:space-y-8"
               >
                 {activeProducts.length === 0 ? (
-                  <div className="text-center text-white/40 py-16 text-sm">
+                  <div className="text-center text-neutral-500 py-16 text-sm">
                     Belum ada produk untuk kategori ini.
                   </div>
                 ) : (
@@ -242,7 +242,7 @@ const ProductRow = ({
       <BorderGlow
         edgeSensitivity={30}
         glowColor="40 80 80"
-        backgroundColor="#120F17"
+        backgroundColor="#ffffff"
         borderRadius={28}
         glowRadius={40}
         glowIntensity={1}
@@ -263,7 +263,7 @@ const ProductRow = ({
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105"
               />
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900" />
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-100 to-neutral-200/50" />
             )}
             <div className="absolute inset-0" />
           </div>
@@ -275,10 +275,10 @@ const ProductRow = ({
               <div className="flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/80 mb-4">
                 <span className="w-6 h-px bg-primary/60" />0{index + 1}
               </div>
-              <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight mb-4 tracking-tight">
+              <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-neutral-900 leading-tight mb-4 tracking-tight">
                 {product.nama}
               </h3>
-              <p className="text-white/80 text-sm md:text-[15px] leading-relaxed max-w-xl line-clamp-5">
+              <p className="text-neutral-600 text-sm md:text-[15px] leading-relaxed max-w-xl line-clamp-5">
                 {product.deskripsi}
               </p>
             </div>
@@ -286,14 +286,14 @@ const ProductRow = ({
             {/* Bottom: Trusted Brands */}
             {logos.length > 0 && (
               <div className="mt-7 min-w-0">
-                <div className="text-[10px] tracking-[0.25em] uppercase text-white/50 mb-3">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-neutral-400 mb-3">
                   Trusted Brands
                 </div>
                 <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 no-scrollbar -mx-1 px-1">
                   {logos.map((partner) => (
                     <div
                       key={partner.id}
-                      className="shrink-0 w-[160px] min-h-[70px] py-3 px-4 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center"
+                      className="shrink-0 w-[160px] min-h-[70px] py-3 px-4 rounded-xl bg-neutral-50 border border-neutral-200/60 overflow-hidden flex items-center justify-center shadow-sm"
                       title={partner.nama}
                     >
                       {partner.imgURL ? (
@@ -304,7 +304,7 @@ const ProductRow = ({
                           className="w-[100px] h-[50px] object-contain"
                         />
                       ) : (
-                        <span className="text-xs text-white/50 text-center px-1 leading-tight">
+                        <span className="text-xs text-neutral-500 text-center px-1 leading-tight">
                           {partner.nama}
                         </span>
                       )}

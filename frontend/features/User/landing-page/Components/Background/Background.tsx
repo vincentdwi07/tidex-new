@@ -10,9 +10,9 @@ const pillars = [
 ];
 
 const BackgroundSection = () => (
-  <section id="about" className="section-padding relative overflow-hidden bg-black py-24">
+  <section id="about" className="section-padding relative overflow-hidden bg-white py-24">
     {/* Background Decorative Elements */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.05),transparent_70%)]" />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.02),transparent_70%)]" />
     <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-red-500/5 blur-[120px]" />
 
     <div className="relative z-10 max-w-[1400px] mx-auto">
@@ -26,16 +26,16 @@ const BackgroundSection = () => (
           <span className="text-red-500 font-display text-sm tracking-[0.3em] uppercase mb-4 block font-semibold text-center lg:text-left">
             About Us
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6 leading-tight text-center lg:text-left">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-neutral-900 mb-6 leading-tight text-center lg:text-left">
             Corporate Background
           </h2>
           <div className={`w-24 h-0.5 ${GlowLine} mb-8 mx-auto lg:mx-0`} />
           
           <div className="space-y-6 text-center lg:text-left">
-            <p className="text-white text-lg leading-relaxed">
+            <p className="text-neutral-800 text-lg leading-relaxed">
               Since 1997, we have evolved from an electronic products business into a comprehensive IT, ICT, and IoT Solution Integrator, guided by our commitment to quality, continuous improvement, and customer-focused values. Our mission is to deliver integrated technology solutions that are simple, secure, and efficient to support our customers’ business growth.
             </p>
-            <p className="text-white/80 text-base leading-relaxed">
+            <p className="text-neutral-600 text-base leading-relaxed">
               We believe that embodying these values as our corporate culture will drive progress and happiness for our associates and our valued customers.
             </p>
           </div>
@@ -55,14 +55,14 @@ const BackgroundSection = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.15 }}
-              className="group relative p-6 flex items-center gap-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-300"
+              className="group relative p-6 flex items-center gap-6 rounded-2xl border border-neutral-200/60 bg-neutral-50/50 hover:bg-neutral-100 hover:border-neutral-300 transition-all duration-300 shadow-sm"
             >
               <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center shrink-0 group-hover:bg-red-500/20 transition-colors">
                 <p.icon className="w-7 h-7 text-red-500" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-white text-xl mb-1">{p.label}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed max-w-sm group-hover:text-zinc-300 transition-colors">{p.desc}</p>
+                <h3 className="font-display font-bold text-neutral-900 text-xl mb-1">{p.label}</h3>
+                <p className="text-neutral-500 text-sm leading-relaxed max-w-sm group-hover:text-neutral-700 transition-colors">{p.desc}</p>
               </div>
             </motion.div>
           ))}

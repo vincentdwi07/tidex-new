@@ -70,27 +70,27 @@ const drivers = [
 
 const AboutUsPage = () => {
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* ── Hero ── */}
-      <section className="relative bg-black overflow-hidden pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-10 xl:px-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.08),transparent_65%)]" />
-        <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-red-500/5 blur-[120px]" />
+      <section className="relative bg-white overflow-hidden pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-10 xl:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.02),transparent_65%)]" />
+        <div className="absolute -right-40 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-red-500/2 blur-[120px]" />
         <div
           aria-hidden
-          className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full blur-3xl opacity-20"
+          className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full blur-3xl opacity-10"
           style={{
             background:
               "radial-gradient(closest-side, rgba(239,68,68,0.4), transparent 70%)",
           }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.06]" />
+        <div className="absolute inset-0 bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.03]" />
 
         <div className="relative z-10 max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`inline-flex items-center gap-2 ${Glassmorph} px-4 py-1.5 text-xs tracking-[0.2em] uppercase text-white/80 mb-7 rounded-xl`}
+            className={`inline-flex items-center gap-2 ${Glassmorph} px-4 py-1.5 text-xs tracking-[0.2em] uppercase text-neutral-600 mb-7 rounded-xl border border-neutral-200/60`}
           >
             <Sparkles className="w-3 h-3 text-red-400" />
             About Us
@@ -100,7 +100,7 @@ const AboutUsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.05 }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] mb-6"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-neutral-900 tracking-tight leading-[1.05] mb-6"
           >
             PT. Tidex{" "}
             <span className="bg-[linear-gradient(90deg,red,blue)] bg-clip-text text-transparent">
@@ -112,7 +112,7 @@ const AboutUsPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white font-light md:text-lg max-w-2xl mx-auto leading-relaxed"
+            className="text-neutral-600 font-light md:text-lg max-w-2xl mx-auto leading-relaxed"
           >
             A trusted technology integrator delivering end-to-end
             Infrastructure, ICT, IT, and IoT solutions across Indonesia since
@@ -122,10 +122,10 @@ const AboutUsPage = () => {
       </section>
 
       {/* ── Stats bar ── */}
-      <section className="bg-black px-6 md:px-10 xl:px-0 pb-16">
+      <section className="bg-white px-6 md:px-10 xl:px-0 pb-16">
         <div className="max-w-7xl mx-auto">
           <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-px ${Glassmorph} rounded-2xl overflow-hidden`}
+            className={`grid grid-cols-2 md:grid-cols-4 gap-px ${Glassmorph} rounded-2xl overflow-hidden border border-neutral-200/60`}
           >
             {stats.map((s, i) => (
               <motion.div
@@ -134,12 +134,12 @@ const AboutUsPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex flex-col items-center justify-center gap-1.5 py-8 px-4 bg-white/[0.02] hover:bg-white/[0.05] transition-colors duration-300"
+                className="flex flex-col items-center justify-center gap-1.5 py-8 px-4 bg-neutral-50/50 hover:bg-neutral-100/50 transition-colors duration-300"
               >
-                <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                <span className="text-3xl md:text-4xl font-bold text-neutral-900 tracking-tight">
                   {s.value}
                 </span>
-                <span className="text-xs text-white/50 tracking-wide text-center">
+                <span className="text-xs text-neutral-500 tracking-wide text-center">
                   {s.label}
                 </span>
               </motion.div>

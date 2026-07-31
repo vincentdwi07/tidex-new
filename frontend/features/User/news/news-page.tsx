@@ -38,11 +38,11 @@ function CategoryPills({ kategori }: { kategori: string }) {
 function NewsCardSkeleton() {
   return (
     <div className="animate-pulse flex flex-col gap-3">
-      <div className="aspect-video rounded-xl bg-white/5" />
-      <div className="h-3 w-20 rounded bg-white/5" />
-      <div className="h-5 w-full rounded bg-white/5" />
-      <div className="h-5 w-4/5 rounded bg-white/5" />
-      <div className="h-4 w-24 rounded bg-white/5 mt-1" />
+      <div className="aspect-video rounded-xl bg-neutral-100" />
+      <div className="h-3 w-20 rounded bg-neutral-100" />
+      <div className="h-5 w-full rounded bg-neutral-100" />
+      <div className="h-5 w-4/5 rounded bg-neutral-100" />
+      <div className="h-4 w-24 rounded bg-neutral-100 mt-1" />
     </div>
   );
 }
@@ -62,7 +62,7 @@ const NewsPage = () => {
   const rest = items.slice(1);
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Header */}
       <section className="pt-28 md:pt-36 pb-12 md:pb-16 px-6 md:px-10 xl:px-0">
         <div className="max-w-7xl mx-auto">
@@ -71,13 +71,13 @@ const NewsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xs tracking-[0.3em] uppercase text-white/40 mb-3">
+            <p className="text-xs tracking-[0.3em] uppercase text-neutral-400 mb-3">
               Newsroom
             </p>
-            <h1 className="text-3xl md:text-5xl font-semibold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-5xl font-semibold text-neutral-900 tracking-tight leading-tight">
               News &amp; Updates
             </h1>
-            <p className="text-white/50 mt-3 text-sm md:text-base max-w-xl leading-relaxed">
+            <p className="text-neutral-500 mt-3 text-sm md:text-base max-w-xl leading-relaxed">
               Announcements, updates, and notes from Tidex operations.
             </p>
           </motion.div>
@@ -86,7 +86,7 @@ const NewsPage = () => {
 
       {/* Divider */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 xl:px-0">
-        <div className="border-t border-white/10" />
+        <div className="border-t border-neutral-200" />
       </div>
 
       {/* Content */}
@@ -99,7 +99,7 @@ const NewsPage = () => {
               ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="text-center py-24 text-white/30 text-sm">
+            <div className="text-center py-24 text-neutral-400 text-sm">
               No articles available yet.
             </div>
           ) : (
@@ -116,7 +116,7 @@ const NewsPage = () => {
                     className="group grid md:grid-cols-2 gap-8 md:gap-12 items-center"
                   >
                     {/* Image */}
-                    <div className="relative aspect-video overflow-hidden rounded-2xl bg-white/5">
+                    <div className="relative aspect-video overflow-hidden rounded-2xl bg-neutral-100">
                       {featured.imgURL ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -125,7 +125,7 @@ const NewsPage = () => {
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-neutral-100 to-neutral-200/50" />
                       )}
                     </div>
 
@@ -135,21 +135,21 @@ const NewsPage = () => {
                         {featured.kategori && (
                           <CategoryPills kategori={featured.kategori} />
                         )}
-                        <span className="text-xs text-white/40 flex items-center gap-1.5">
+                        <span className="text-xs text-neutral-400 flex items-center gap-1.5">
                           <Calendar className="w-3 h-3" />
                           {formatDate(featured.created_at)}
                         </span>
                       </div>
-                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight tracking-tight group-hover:text-red-400 transition-colors">
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-neutral-900 leading-tight tracking-tight group-hover:text-red-500 transition-colors">
                         {featured.judul}
                       </h2>
                       <div
-                        className="text-white/50 text-sm leading-relaxed line-clamp-3 rich-text-content-preview"
+                        className="text-neutral-600 text-sm leading-relaxed line-clamp-3 rich-text-content-preview"
                         dangerouslySetInnerHTML={{
                           __html: featured.news.replace(/<[^>]+>/g, " ").trim(),
                         }}
                       />
-                      <span className="inline-flex items-center gap-2 text-sm text-red-400 font-medium group-hover:gap-3 transition-all">
+                      <span className="inline-flex items-center gap-2 text-sm text-red-500 font-medium group-hover:gap-3 transition-all">
                         Read more <ArrowRight className="w-4 h-4" />
                       </span>
                     </div>
@@ -160,7 +160,7 @@ const NewsPage = () => {
               {/* Rest — grid */}
               {rest.length > 0 && (
                 <>
-                  <div className="border-t border-white/10" />
+                  <div className="border-t border-neutral-200" />
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                     {rest.map((item, i) => (
                       <motion.div
@@ -175,7 +175,7 @@ const NewsPage = () => {
                           className="group flex flex-col gap-4"
                         >
                           {/* Thumbnail */}
-                          <div className="relative aspect-video overflow-hidden rounded-xl bg-white/5">
+                          <div className="relative aspect-video overflow-hidden rounded-xl bg-neutral-100">
                             {item.imgURL ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
@@ -184,7 +184,7 @@ const NewsPage = () => {
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                               />
                             ) : (
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
+                              <div className="absolute inset-0 bg-gradient-to-br from-neutral-100 to-neutral-200/50" />
                             )}
                           </div>
 
@@ -193,23 +193,23 @@ const NewsPage = () => {
                             {item.kategori && (
                               <CategoryPills kategori={item.kategori} />
                             )}
-                            <span className="text-xs text-white/40 flex items-center gap-1">
+                            <span className="text-xs text-neutral-400 flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
                               {formatDate(item.created_at)}
                             </span>
                           </div>
 
                           {/* Title */}
-                          <h3 className="text-base md:text-lg font-semibold text-white leading-snug tracking-tight group-hover:text-red-400 transition-colors line-clamp-2">
+                          <h3 className="text-base md:text-lg font-semibold text-neutral-900 leading-snug tracking-tight group-hover:text-red-500 transition-colors line-clamp-2">
                             {item.judul}
                           </h3>
 
                           {/* Excerpt */}
-                          <p className="text-sm text-white/40 leading-relaxed line-clamp-2">
+                          <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2">
                             {item.news.replace(/<[^>]+>/g, " ").trim()}
                           </p>
 
-                          <span className="inline-flex items-center gap-1.5 text-xs text-red-400/80 font-medium group-hover:gap-2.5 transition-all">
+                          <span className="inline-flex items-center gap-1.5 text-xs text-red-500 font-medium group-hover:gap-2.5 transition-all">
                             Read <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </Link>

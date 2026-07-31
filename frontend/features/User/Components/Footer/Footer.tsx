@@ -33,16 +33,16 @@ const FooterSection = () => {
   return (
     <footer
       id="contact"
-      className="border-border/50 bg-black pt-20 md:pt-[150px]"
+      className="border-t border-neutral-200/60 bg-white pt-20 md:pt-[150px]"
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 xl:px-0 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mb-12 md:mb-16">
           {/* Brand */}
           <div>
-            <div className="bg-white p-2 px-4 rounded-[80px] inline-block">
+            <div className="bg-white p-2 px-4 rounded-[80px] inline-block border border-neutral-200">
               <Image src="/logo.webp" alt="" width={55} height={55} />
             </div>
-            <p className="text-sm leading-relaxed mt-5 text-white">
+            <p className="text-sm leading-relaxed mt-5 text-neutral-600">
               <strong>PT. Tidex Titan Persada</strong> — Trusted to Commitment.
               Delivering integrated IT, ICT, and IoT solutions since 1997.
             </p>
@@ -50,35 +50,35 @@ const FooterSection = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-5">
+            <h4 className="font-display font-semibold text-neutral-900 mb-5">
               CONTACT US
             </h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 mt-0.5 text-red-500 shrink-0" />
-                <p className="text-white">
+                <p className="text-neutral-600">
                   Jl. Wonorejo Permai Utara Raya Blok BB, No. 577, Nirwana
                   Eksekutif Surabaya, Jawa Timur, Indonesia
                 </p>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-white">031-8782446</p>
+                <p className="text-neutral-600">031-8782446</p>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-white">info@tidex.co.id</p>
+                <p className="text-neutral-600">info@tidex.co.id</p>
               </li>
               <li className="flex items-center gap-3">
                 <CgInstagram className="w-4 h-4 text-red-500 shrink-0" />
-                <p className="text-white">@tidex.surabaya</p>
+                <p className="text-neutral-600">@tidex.surabaya</p>
               </li>
             </ul>
           </div>
 
           {/* Contact Form */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-5">
+            <h4 className="font-display font-semibold text-neutral-900 mb-5">
               GET IN TOUCH
             </h4>
             <form className="space-y-3" onSubmit={handleSubmit}>
@@ -90,7 +90,7 @@ const FooterSection = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, nama: e.target.value }))
                 }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-500/50 transition-colors"
               />
               <input
                 type="email"
@@ -100,7 +100,7 @@ const FooterSection = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, email: e.target.value }))
                 }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-500/50 transition-colors"
               />
               <textarea
                 required
@@ -110,7 +110,7 @@ const FooterSection = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, pesan: e.target.value }))
                 }
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-red-500/50 transition-colors resize-none"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-500/50 transition-colors resize-none"
               />
               <button
                 type="submit"
@@ -123,7 +123,7 @@ const FooterSection = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 text-center text-white/50 text-xs">
+        <div className="border-t border-neutral-200/60 pt-6 text-center text-neutral-400 text-xs">
           © 2026 PT. Tidex Titan Persada. All rights reserved.
         </div>
       </div>

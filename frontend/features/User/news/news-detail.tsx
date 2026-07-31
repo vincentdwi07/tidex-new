@@ -30,18 +30,18 @@ export default function NewsDetail({ id }: { id: number }) {
 
   if (loading) {
     return (
-      <div className="bg-black min-h-screen">
+      <div className="bg-white min-h-screen">
         <div className="max-w-3xl mx-auto px-6 md:px-10 xl:px-0 pt-28 md:pt-36 pb-24 animate-pulse space-y-6">
-          <div className="h-3 w-32 rounded bg-white/5" />
-          <div className="h-8 w-3/4 rounded-lg bg-white/5" />
-          <div className="h-8 w-2/3 rounded-lg bg-white/5" />
-          <div className="h-5 w-40 rounded bg-white/5" />
-          <div className="aspect-video rounded-2xl bg-white/5 mt-4" />
+          <div className="h-3 w-32 rounded bg-neutral-100" />
+          <div className="h-8 w-3/4 rounded-lg bg-neutral-100" />
+          <div className="h-8 w-2/3 rounded-lg bg-neutral-100" />
+          <div className="h-5 w-40 rounded bg-neutral-100" />
+          <div className="aspect-video rounded-2xl bg-neutral-100 mt-4" />
           <div className="space-y-3 mt-6">
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="h-4 rounded bg-white/5"
+                className="h-4 rounded bg-neutral-100"
                 style={{ width: `${85 + (i % 3) * 5}%` }}
               />
             ))}
@@ -53,11 +53,11 @@ export default function NewsDetail({ id }: { id: number }) {
 
   if (notFound || !item) {
     return (
-      <div className="bg-black min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-white/40 text-sm">Article not found.</p>
+      <div className="bg-white min-h-screen flex flex-col items-center justify-center gap-4">
+        <p className="text-neutral-500 text-sm">Article not found.</p>
         <Link
           href="/news"
-          className="inline-flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Newsroom
         </Link>
@@ -66,7 +66,7 @@ export default function NewsDetail({ id }: { id: number }) {
   }
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-white min-h-screen">
       <article className="max-w-3xl mx-auto px-6 md:px-10 xl:px-0 pt-28 md:pt-36 pb-24">
         {/* Back */}
         <motion.div
@@ -76,7 +76,7 @@ export default function NewsDetail({ id }: { id: number }) {
         >
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-white/80 transition-colors mb-10 group"
+            className="inline-flex items-center gap-2 text-xs text-neutral-500 hover:text-neutral-800 transition-colors mb-10 group"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             Back to Newsroom
@@ -105,19 +105,19 @@ export default function NewsDetail({ id }: { id: number }) {
                     {tag}
                   </span>
                 ))}
-            <span className="text-xs text-white/40 flex items-center gap-1.5">
+            <span className="text-xs text-neutral-400 flex items-center gap-1.5">
               <Calendar className="w-3 h-3" />
               {formatDate(item.created_at)}
             </span>
             {item.updated_at && item.updated_at !== item.created_at && (
-              <span className="text-xs text-white/30">
+              <span className="text-xs text-neutral-400">
                 · Updated {formatDate(item.updated_at)}
               </span>
             )}
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl md:text-4xl font-semibold text-white leading-tight tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-semibold text-neutral-900 leading-tight tracking-tight">
             {item.judul}
           </h1>
         </motion.header>
@@ -134,13 +134,13 @@ export default function NewsDetail({ id }: { id: number }) {
             <img
               src={getImageUrl(item.imgURL)}
               alt={item.judul}
-              className="w-full aspect-video object-cover rounded-2xl bg-white/5"
+              className="w-full aspect-video object-cover rounded-2xl bg-neutral-100"
             />
           </motion.div>
         )}
 
         {/* Divider */}
-        <div className="border-t border-white/10 mb-10" />
+        <div className="border-t border-neutral-200 mb-10" />
 
         {/* Content */}
         <motion.div
@@ -152,15 +152,15 @@ export default function NewsDetail({ id }: { id: number }) {
         />
 
         {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+        <div className="mt-16 pt-8 border-t border-neutral-200 flex items-center justify-between flex-wrap gap-4">
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors group"
+            className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-800 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             All News
           </Link>
-          <span className="text-xs text-white/30">
+          <span className="text-xs text-neutral-400">
             {formatDate(item.created_at)}
           </span>
         </div>

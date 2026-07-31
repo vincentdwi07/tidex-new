@@ -22,7 +22,7 @@ const values = [
 ];
 
 const ValuesSection = () => (
-  <section className="section-padding bg-black py-20">
+  <section className="section-padding bg-white py-20">
     <div className="max-w-[1400px] mx-auto px-6 lg:px-0">
       <SectionHeading
         subtitle="Why Choose Us"
@@ -38,15 +38,15 @@ const ValuesSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.15, duration: 0.5 }}
-            className="relative p-10 text-center group rounded-3xl border border-white/5 bg-white/2 hover:bg-white/4 hover:border-white/10 transition-all duration-500"
+            className="relative p-10 text-center group rounded-3xl border border-zinc-200/60 bg-zinc-50/50 hover:bg-zinc-100/50 hover:border-zinc-300 transition-all duration-500 shadow-sm"
           >
             <div className="w-20 h-20 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500">
               <v.icon className="w-9 h-9 text-red-500" />
             </div>
-            <h3 className="font-display text-2xl font-bold text-white mb-4 tracking-tight">
+            <h3 className="font-display text-2xl font-bold text-neutral-900 mb-4 tracking-tight">
               {v.title}
             </h3>
-            <p className="text-zinc-400 text-base leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">
+            <p className="text-neutral-500 text-base leading-relaxed group-hover:text-neutral-700 transition-colors duration-300">
               {v.desc}
             </p>
           </motion.div>
