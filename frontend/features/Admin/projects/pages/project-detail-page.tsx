@@ -1,18 +1,12 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { useProjects } from "@/features/Admin/projects/hooks/use-projects";
 import AdminPageHeader from "@/features/Admin/components/AdminPageHeader";
 import { getImageUrl } from "@/lib/api/client";
 
-export default function AdminProjectDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
+export default function ProjectDetailPage({ id }: { id: string }) {
   const { items, loading } = useProjects();
   const item = items.find((p) => p.id === Number(id)) ?? null;
 
@@ -45,7 +39,6 @@ export default function AdminProjectDetailPage({
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          {/* Gambar */}
           {item.imgURL && (
             <div className="bg-white border border-slate-200/80 rounded-lg shadow-sm overflow-hidden">
               <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/60">
@@ -64,7 +57,6 @@ export default function AdminProjectDetailPage({
             </div>
           )}
 
-          {/* Nama */}
           <div className="bg-white border border-slate-200/80 rounded-lg shadow-sm overflow-hidden">
             <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/60">
               <p className="text-sm font-semibold text-slate-900">

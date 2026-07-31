@@ -59,8 +59,8 @@ export default function ProjectForm({ initial, onSubmit }: ProjectFormProps) {
           <ImageUploadWithCrop
             value={initial?.imgURL ?? null}
             onChange={(file) => setValues((v) => ({ ...v, imageFile: file }))}
-            aspectRatio={16 / 9}
-            hint="Rasio 16:9. Rekomendasi min. 1280×720px. Maks. 2MB."
+            aspectRatio={1 / 1}
+            hint="Rasio 1:1. Format PNG/SVG transparan direkomendasikan. Maks. 2MB."
           />
         </div>
       </div>
