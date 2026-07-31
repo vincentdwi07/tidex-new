@@ -2,15 +2,14 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Server, Cpu, Network, Radio, Sparkles } from "lucide-react";
+import { Server, Cpu, Network, Radio } from "lucide-react";
 import { Glassmorph } from "@/lib/constant/Glassmorph";
 import BorderGlow from "@/components/BorderGlow";
 import {
   getProducts,
-  getPartners,
   getImageUrl,
   type Product as ApiProduct,
-  type Partner,
+  type ProductPartner,
 } from "@/lib/api";
 
 const VALID_TABS = ["infra", "it", "ict", "iot"] as const;
@@ -18,9 +17,9 @@ type TabId = (typeof VALID_TABS)[number];
 
 const KATEGORI_MAP: Record<string, TabId> = {
   Infrastructure: "infra",
-  "Information Technology (IT)": "it",
-  "Information Communication Technology (ICT)": "ict",
-  "Internet of Things (IoT)": "iot",
+  IT: "it",
+  ICT: "ict",
+  IoT: "iot",
 };
 
 const categories: {
@@ -68,7 +67,6 @@ const Products = () => {
     resolveTab(searchParams.get("tab")),
   );
   const [products, setProducts] = useState<ApiProduct[]>([]);
-  const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Sync active tab when URL param changes (e.g. browser back/forward)
@@ -77,10 +75,9 @@ const Products = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    Promise.all([getProducts(1, 200), getPartners(1, 200)])
-      .then(([prodRes, partRes]) => {
-        setProducts(prodRes.data || []);
-        setPartners(partRes.data || []);
+    getProducts(1, 200)
+      .then((res) => {
+        setProducts(res.data || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -107,17 +104,6 @@ const Products = () => {
     },
     {} as Record<TabId, ApiProduct[]>,
   );
-
-  // Resolve partner logos from comma-separated IDs
-  function resolveLogos(logosStr: string): Partner[] {
-    if (!logosStr) return [];
-    return logosStr
-      .split(",")
-      .map((s) => parseInt(s.trim(), 10))
-      .filter((n) => !isNaN(n))
-      .map((id) => partners.find((p) => p.id === id))
-      .filter(Boolean) as Partner[];
-  }
 
   const current = categories.find((c) => c.id === active)!;
   const activeProducts = grouped[active] ?? [];
@@ -223,12 +209,7 @@ const Products = () => {
                   </div>
                 ) : (
                   activeProducts.map((p, i) => (
-                    <ProductRow
-                      key={p.id}
-                      product={p}
-                      index={i}
-                      logos={resolveLogos(p.logos)}
-                    />
+                    <ProductRow key={p.id} product={p} index={i} />
                   ))
                 )}
               </motion.div>
@@ -243,13 +224,13 @@ const Products = () => {
 const ProductRow = ({
   product,
   index,
-  logos,
 }: {
   product: ApiProduct;
   index: number;
-  logos: Partner[];
 }) => {
   const reverse = index % 2 === 1;
+  const logos: ProductPartner[] = product.partners ?? [];
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -273,7 +254,7 @@ const ProductRow = ({
           className={`grid md:grid-cols-2 gap-0 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}
         >
           {/* Image */}
-          <div className="relative aspect-4/3 md:aspect-auto md:min-h-90 overflow-hidden!">
+          <div className="relative aspect-4/3 overflow-hidden!">
             {product.imgURL ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -287,8 +268,8 @@ const ProductRow = ({
             <div className="absolute inset-0" />
           </div>
 
-          {/* Content — flex col, justify-between so trusted brands always at bottom */}
-          <div className="relative p-7 md:p-12 flex flex-col justify-between min-h-64 md:min-h-90">
+          {/* Content */}
+          <div className="relative p-7 md:p-12 flex flex-col justify-between min-h-64 md:min-h-90 min-w-0">
             {/* Top: number + title + desc */}
             <div>
               <div className="flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-primary/80 mb-4">
@@ -302,17 +283,17 @@ const ProductRow = ({
               </p>
             </div>
 
-            {/* Bottom: Trusted Brands — always at bottom */}
+            {/* Bottom: Trusted Brands */}
             {logos.length > 0 && (
-              <div className="mt-7">
+              <div className="mt-7 min-w-0">
                 <div className="text-[10px] tracking-[0.25em] uppercase text-white/50 mb-3">
                   Trusted Brands
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 no-scrollbar -mx-1 px-1">
                   {logos.map((partner) => (
                     <div
                       key={partner.id}
-                      className="w-10 h-10 rounded-lg bg-white/10 border border-white/15 overflow-hidden flex items-center justify-center"
+                      className="shrink-0 w-[160px] min-h-[70px] py-3 px-4 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center"
                       title={partner.nama}
                     >
                       {partner.imgURL ? (
@@ -320,11 +301,11 @@ const ProductRow = ({
                         <img
                           src={getImageUrl(partner.imgURL)}
                           alt={partner.nama}
-                          className="w-8 h-8 object-contain"
+                          className="w-[100px] h-[50px] object-contain"
                         />
                       ) : (
-                        <span className="text-[9px] text-white/50 text-center px-0.5 leading-tight">
-                          {partner.nama.slice(0, 3)}
+                        <span className="text-xs text-white/50 text-center px-1 leading-tight">
+                          {partner.nama}
                         </span>
                       )}
                     </div>

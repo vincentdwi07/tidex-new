@@ -39,6 +39,12 @@ export interface LoginResponse {
 }
 
 // Product
+export interface ProductPartner {
+  id: number;
+  nama: string;
+  imgURL: string;
+}
+
 export interface Product {
   id: number;
   kategori: string;
@@ -46,6 +52,7 @@ export interface Product {
   imgURL: string;
   deskripsi: string;
   logos: string;
+  partners: ProductPartner[];
 }
 
 // Partner

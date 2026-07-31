@@ -31,9 +31,12 @@ const FooterSection = () => {
   }
 
   return (
-    <footer id="contact" className="border-border/50 bg-black pt-[150px]">
-      <div className="max-w-[1400px] mx-auto section-padding pb-8">
-        <div className="grid md:grid-cols-3 gap-12 mb-16">
+    <footer
+      id="contact"
+      className="border-border/50 bg-black pt-20 md:pt-[150px]"
+    >
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 xl:px-0 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mb-12 md:mb-16">
           {/* Brand */}
           <div>
             <div className="bg-white p-2 px-4 rounded-[80px] inline-block">

@@ -75,6 +75,15 @@ export function useProducts() {
     fd.append("logos", values.logos ?? "");
     if (values.imageFile) fd.append("image", values.imageFile);
 
+    // Append partner_ids parsed from logos string (comma-separated IDs)
+    const partnerIds = (values.logos ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    for (const pid of partnerIds) {
+      fd.append("partner_ids", pid);
+    }
+
     try {
       if (editId) {
         await updateProduct(editId, fd);

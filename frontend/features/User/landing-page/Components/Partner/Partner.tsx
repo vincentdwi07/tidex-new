@@ -77,16 +77,14 @@ const PartnersSection = () => {
             {[...partners, ...partners].map((p, i) => (
               <div
                 key={i}
-                className="group bg-[hsl(240_12%_7%_/_0.4)] backdrop-blur-xl border border-border/50 rounded-xl
-                        w-[250px] min-h-[100px] py-3 text-muted-foreground font-display text-lg tracking-wider
-                        hover:text-white hover:border-red-500/30 flex items-center justify-center
-                        transition-all duration-300 shrink-0"
+                className="bg-[hsl(240_12%_7%_/_0.4)] backdrop-blur-xl border border-border/50 rounded-xl
+                        w-[250px] min-h-[100px] py-3 flex items-center justify-center shrink-0"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={getImageUrl(p.imgURL)}
                   alt={p.nama}
-                  className="w-[100px] h-[60px] object-contain grayscale transition duration-300 group-hover:grayscale-0"
+                  className="w-[100px] h-[100px] object-contain"
                 />
               </div>
             ))}

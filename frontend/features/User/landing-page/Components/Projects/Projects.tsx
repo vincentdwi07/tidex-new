@@ -53,7 +53,7 @@ const ProjectsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04, duration: 0.4 }}
-                className="group backdrop-blur-[24px] bg-[rgba(15,15,20,0.4)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(239,68,68,0.3)] transition-all duration-300 rounded-[12px] overflow-hidden flex flex-col items-center gap-3 px-4 py-5"
+                className="backdrop-blur-[24px] bg-[rgba(15,15,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded-[12px] overflow-hidden flex flex-col items-center gap-3 px-4 py-5"
               >
                 {/* Logo 1:1 */}
                 <div className="w-full aspect-square rounded-[8px] overflow-hidden flex items-center justify-center">
@@ -62,16 +62,16 @@ const ProjectsSection = () => {
                     <img
                       src={getImageUrl(p.imgURL)}
                       alt={p.nama}
-                      className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 p-3"
+                      className="w-full h-full object-contain p-3"
                     />
                   ) : (
-                    <span className="font-['Poppins'] text-[20px] font-bold text-white/20 group-hover:text-white/40 transition-colors duration-300">
+                    <span className="font-['Poppins'] text-[20px] font-bold text-white/40">
                       {p.nama.charAt(0).toUpperCase()}
                     </span>
                   )}
                 </div>
                 {/* Name */}
-                <span className="font-['Poppins'] text-[12px] text-[#a1a1aa] group-hover:text-white font-medium tracking-wide text-center transition-colors duration-300 leading-snug">
+                <span className="font-['Poppins'] text-[12px] text-white font-medium tracking-wide text-center leading-snug">
                   {p.nama}
                 </span>
               </motion.div>

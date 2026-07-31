@@ -1,10 +1,10 @@
 "use client";
 
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { useProducts } from "@/features/Admin/products/hooks/use-products";
-import { usePartners } from "@/features/Admin/partners/hooks/use-partners";
+import { getProductById } from "@/lib/api";
+import type { Product } from "@/lib/api";
 import AdminPageHeader from "@/features/Admin/components/AdminPageHeader";
 import { getImageUrl } from "@/lib/api/client";
 import { PRODUCTS_TITLE } from "@/features/Admin/products/constant/products.constant";
@@ -15,18 +15,19 @@ export default function AdminProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const { items, loading } = useProducts();
-  const { items: partners } = usePartners();
-  const item = items.find((p) => p.id === Number(id)) ?? null;
+  const [item, setItem] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Parse logos string to partner objects
-  const logoPartners =
-    item?.logos
-      ?.split(",")
-      .map((s) => parseInt(s.trim(), 10))
-      .filter((n) => !isNaN(n))
-      .map((pid) => partners.find((p) => p.id === pid))
-      .filter(Boolean) ?? [];
+  useEffect(() => {
+    setLoading(true);
+    getProductById(Number(id))
+      .then((res) => setItem(res.data))
+      .catch(() => setItem(null))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  // Use partners directly from API response (already joined)
+  const logoPartners = item?.partners ?? [];
 
   return (
     <div className="flex flex-col gap-6">

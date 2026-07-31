@@ -19,11 +19,15 @@ interface ProductFormProps {
 export default function ProductForm({ initial, onSubmit }: ProductFormProps) {
   const router = useRouter();
   const { items: partners, loading: partnersLoading } = usePartners();
+  // Always derive logos IDs from the partners array (which is always populated via JOIN).
+  // The logos string field contains names, not IDs — MultiLogoSelect needs IDs.
+  const initialLogos = (initial?.partners ?? []).map((p) => p.id).join(",");
+
   const [values, setValues] = useState<ProductFormValues>({
     nama: initial?.nama ?? defaultProductForm.nama,
     deskripsi: initial?.deskripsi ?? defaultProductForm.deskripsi,
     kategori: initial?.kategori ?? defaultProductForm.kategori,
-    logos: initial?.logos ?? defaultProductForm.logos,
+    logos: initialLogos || defaultProductForm.logos,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");

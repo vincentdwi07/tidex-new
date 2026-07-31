@@ -129,6 +129,16 @@ body {
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 /* Rich text editor content styling */
 .rich-text-content h1 {
   font-size: 1.875rem;

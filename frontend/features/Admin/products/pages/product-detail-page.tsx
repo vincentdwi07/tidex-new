@@ -1,25 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { useProducts } from "@/features/Admin/products/hooks/use-products";
-import { usePartners } from "@/features/Admin/partners/hooks/use-partners";
+import { getProductById } from "@/lib/api";
+import type { Product } from "@/lib/api";
 import AdminPageHeader from "@/features/Admin/components/AdminPageHeader";
 import { getImageUrl } from "@/lib/api/client";
 import { PRODUCTS_TITLE } from "@/features/Admin/products/constant/products.constant";
 
 export default function ProductDetailPage({ id }: { id: string }) {
-  const { items, loading } = useProducts();
-  const { items: partners } = usePartners();
-  const item = items.find((p) => p.id === Number(id)) ?? null;
+  const [item, setItem] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const logoPartners =
-    item?.logos
-      ?.split(",")
-      .map((s) => parseInt(s.trim(), 10))
-      .filter((n) => !isNaN(n))
-      .map((pid) => partners.find((p) => p.id === pid))
-      .filter(Boolean) ?? [];
+  useEffect(() => {
+    setLoading(true);
+    getProductById(Number(id))
+      .then((res) => setItem(res.data))
+      .catch(() => setItem(null))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const logoPartners = item?.partners ?? [];
 
   return (
     <div className="flex flex-col gap-6">
@@ -40,7 +42,7 @@ export default function ProductDetailPage({ id }: { id: string }) {
         }
       />
 
-      {loading && !item ? (
+      {loading ? (
         <div className="text-center py-16 text-slate-400 text-sm">
           Memuat data...
         </div>
@@ -114,25 +116,25 @@ export default function ProductDetailPage({ id }: { id: string }) {
                 <div className="flex flex-wrap gap-4">
                   {logoPartners.map((p) => (
                     <div
-                      key={p!.id}
+                      key={p.id}
                       className="flex flex-col items-center gap-1.5 w-20"
                     >
                       <div className="w-16 h-16 rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center">
-                        {p!.imgURL ? (
+                        {p.imgURL ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
-                            src={getImageUrl(p!.imgURL)}
-                            alt={p!.nama}
+                            src={getImageUrl(p.imgURL)}
+                            alt={p.nama}
                             className="w-14 h-14 object-contain p-1"
                           />
                         ) : (
                           <span className="text-[10px] text-slate-400 text-center px-1">
-                            {p!.nama}
+                            {p.nama}
                           </span>
                         )}
                       </div>
                       <span className="text-[10px] text-slate-600 text-center leading-tight line-clamp-2 w-full">
-                        {p!.nama}
+                        {p.nama}
                       </span>
                     </div>
                   ))}

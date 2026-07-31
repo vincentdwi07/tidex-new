@@ -210,24 +210,27 @@ export default function MultiLogoSelect({
               key={p.id}
               className="flex flex-col items-center gap-1 w-20 group"
             >
-              <div className="relative w-16 h-16 rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center">
-                {p.imgURL ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={getImageUrl(p.imgURL)}
-                    alt={p.nama}
-                    className="w-14 h-14 object-contain p-1"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs text-center px-1">
-                    {p.nama}
-                  </div>
-                )}
-                {/* Remove button */}
+              {/* Wrap in relative container so remove button can escape overflow-hidden */}
+              <div className="relative w-16 h-16">
+                <div className="w-16 h-16 rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center">
+                  {p.imgURL ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={getImageUrl(p.imgURL)}
+                      alt={p.nama}
+                      className="w-14 h-14 object-contain p-1"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs text-center px-1">
+                      {p.nama}
+                    </div>
+                  )}
+                </div>
+                {/* Remove button — outside overflow-hidden so it's not clipped */}
                 <button
                   type="button"
                   onClick={() => remove(p.id)}
-                  className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow"
+                  className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-[11px] font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
                   title="Hapus"
                 >
                   ×
