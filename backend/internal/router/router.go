@@ -50,7 +50,7 @@ func New(jwtManager *utils.JWTManager, h *Handlers, uploadsDir string) http.Hand
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.CORS)
-	r.Use(middleware.RateLimit(100, time.Minute))
+	r.Use(middleware.RateLimit(1000, time.Minute))
 
 	// Serve uploaded files
 	r.Get("/uploads/*", http.StripPrefix("/uploads", http.FileServer(http.Dir(uploadsDir))).ServeHTTP)
